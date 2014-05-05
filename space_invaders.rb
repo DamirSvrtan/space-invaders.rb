@@ -96,12 +96,67 @@ class Sprite
 
 end
 
+class Invader
+  def initialize window, x_position=0, y_position=0
+    @window = window
+    @was_first_image = true
+    @change_time = Time.now
+    @x_position = x_position
+    @y_position = y_position
+  end
+
+  def update
+  end
+
+  def can_change
+    Time.now > @change_time + 0.5
+  end
+
+  def draw
+    if can_change
+      current_image = @was_first_image ? @second_image : @first_image
+      @change_time = Time.now
+      @was_first_image = !@was_first_image
+    else
+      current_image = @was_first_image ? @first_image : @second_image
+    end
+
+    current_image.draw @x_position, @y_position, 1
+  end
+end
+
+class InvaderA < Invader
+  def initialize window, x_position=0, y_position=0
+    super
+    @first_image = Gosu::Image.new @window, "InvaderA_00@2x.png"
+    @second_image = Gosu::Image.new @window, "InvaderA_01@2x.png"
+  end
+end
+
+class InvaderB < Invader
+  def initialize window, x_position=0, y_position=0
+    super
+    @first_image = Gosu::Image.new @window, "InvaderB_00@2x.png"
+    @second_image = Gosu::Image.new @window, "InvaderB_01@2x.png"
+  end
+end
+
+class InvaderC < Invader
+  def initialize window, x_position=0, y_position=0
+    super
+    @first_image = Gosu::Image.new @window, "InvaderC_00@2x.png"
+    @second_image = Gosu::Image.new @window, "InvaderC_01@2x.png"
+  end
+end
+
 class SpaceInvaders < Gosu::Window
 
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = "Sprite Demonstration"
-    @sprite = Sprite.new self
+    @invader_a = InvaderA.new self, 110, 0
+    @invader_b = InvaderB.new self, 190, 0
+    @invader_c = InvaderC.new self, 270, 0
     @ship = Ship.new self
   end
 
@@ -114,13 +169,17 @@ class SpaceInvaders < Gosu::Window
   end
 
   def update
-    @sprite.update
+    @invader_a.update
+    @invader_b.update
+    @invader_c.update
     @ship.update
     @bullet.update if @bullet
   end
 
   def draw
-    @sprite.draw
+    @invader_a.draw
+    @invader_b.draw
+    @invader_c.draw
     @ship.draw
     @bullet.draw if @bullet
   end
