@@ -2,7 +2,6 @@ require "gosu"
 require 'pry'
 
 class Ship
-
   def initialize window
     @window = window
     @image = Gosu::Image.new @window, "Ship@2x.png"
@@ -24,6 +23,28 @@ class Ship
 
   def draw
     @image.draw @image_x, @image_y, 1
+  end
+
+  def x_middle
+    @image_x + @image.width/2
+  end
+end
+
+class Bullet
+  def initialize window, ship
+    @window = window
+    @ship = ship
+    @image = Gosu::Image.new @window, "bullet.png"
+    @x_position = @ship.x_middle - @image.width/2
+    @y_position = @window.height - 50
+  end
+
+  def update
+    @y_position -= 5
+  end
+
+  def draw
+    @image.draw @x_position, @y_position, 1
   end
 end
 
@@ -75,7 +96,7 @@ class Sprite
 
 end
 
-class SpriteGame < Gosu::Window
+class SpaceInvaders < Gosu::Window
 
   def initialize width=800, height=600, fullscreen=false
     super
@@ -85,19 +106,25 @@ class SpriteGame < Gosu::Window
   end
 
   def button_down id
-    close if id == Gosu::KbEscape
+    if id == Gosu::KbEscape
+      close 
+    elsif id == Gosu::KbSpace
+      @bullet = Bullet.new self, @ship
+    end
   end
 
   def update
     @sprite.update
     @ship.update
+    @bullet.update if @bullet
   end
 
   def draw
     @sprite.draw
     @ship.draw
+    @bullet.draw if @bullet
   end
 
 end
 
-SpriteGame.new.show
+SpaceInvaders.new.show
