@@ -49,27 +49,25 @@ class Bullet
 end
 
 class Invader
+
+  attr_accessor :x_position, :y_position
+
   def initialize window, x_position=0, y_position=0
     @window = window
     @was_first_image = true
-    @change_time = Time.now
     @x_position = x_position
     @y_position = y_position
   end
 
-  def update
-    if can_change
-      @current_image = @was_first_image ? @second_image : @first_image
-      @change_time = Time.now
-      @was_first_image = !@was_first_image
+  def update(direction)
+    @was_first_image = !@was_first_image
+    if direction == :right
       @x_position += 10
     else
-      @current_image = @was_first_image ? @first_image : @second_image
+      @x_position -= 10
     end
-  end
-
-  def can_change
-    Time.now > @change_time + 0.5
+    # @current_image = @was_first_image ? @second_image : @first_image
+    @current_image = @was_first_image ? @first_image : @second_image
   end
 
   def draw
@@ -115,15 +113,24 @@ end
 
 class InvaderCollection
 
+  attr_accessor :direction
+  # attr_reader :invaders
+
   def initialize window, y_position, invader_id
     @window = window
     @y_position = y_position
     @invaders = []
+    @direction = :right
     invader_constant = Object.const_get("Invader#{invader_id}")
     [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
       invader = invader_constant.new(window, x_position, y_position)
       @invaders << invader
     end
+    @change_time = Time.now
+  end
+
+  def can_change
+    Time.now > @change_time + 0.4
   end
 
   def invaders
@@ -131,7 +138,15 @@ class InvaderCollection
   end
 
   def update
-    @invaders.each {|invader| invader.update }
+    if can_change
+      if farmost_right.x_position >= @window.width - 90
+        @direction = :left
+      elsif farmost_left.x_position <= 20
+        @direction = :right
+      end
+      @invaders.each {|invader| invader.update @direction }
+      @change_time = Time.now
+    end
   end
 
   def draw
@@ -142,6 +157,13 @@ class InvaderCollection
     @invaders.each(&block)
   end
 
+  def farmost_right
+    @invaders.max {|invader| invader.x_position }
+  end
+
+  def farmost_left
+    @invaders.min {|invader| invader.x_position }
+  end
 end
 
 class CollisionDetector
