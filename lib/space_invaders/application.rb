@@ -30,6 +30,11 @@ module SpaceInvaders
         @invaders_container.update(@ship.bullets)
         @ship.update
       end
+      # puts "-------------"
+      # @invaders_container.fireable_invaders.each do |inv|
+      #   print inv.class
+      # end
+      # puts "\n-------------"
     end
 
     def draw

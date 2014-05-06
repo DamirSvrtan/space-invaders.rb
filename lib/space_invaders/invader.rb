@@ -9,6 +9,11 @@ module SpaceInvaders
       @x_position = x_position
       @original_x_position = x_position
       @y_position = y_position
+      @bullet_collection = BulletCollection.new
+    end
+
+    def bullets
+      @bullet_collection
     end
 
     def update(direction)
@@ -16,10 +21,12 @@ module SpaceInvaders
       offset = direction == :right ? 10 : -10
       @x_position += offset
       @current_image = @was_first_image ? @first_image : @second_image
+      @bullet_collection.update
     end
 
     def draw
       @current_image.draw @x_position, @y_position, 1
+      @bullet_collection.draw
     end
 
     def points
@@ -48,5 +55,6 @@ module SpaceInvaders
       end
       false
     end
+
   end
 end

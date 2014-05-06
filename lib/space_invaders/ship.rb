@@ -3,34 +3,45 @@ require_relative 'bullet_collection'
 
 module SpaceInvaders
   class Ship
+
+    attr_accessor :x_position, :y_position
+
     def initialize window
       @window = window
       @image = Gosu::Image.new @window, "images/Ship.png"
-      @image_x = @window.width/2 - 40
-      @image_y = @window.height - 50
+      @x_position = @window.width/2 - 40
+      @y_position = @window.height - 50
       @bullet_collection = BulletCollection.new
     end
 
     def update
       if @window.button_down? Gosu::KbLeft
-        unless @image_x.between?(0, 20)
-          @image_x += -5
+        unless @x_position.between?(0, 20)
+          @x_position += -5
         end
       elsif @window.button_down? Gosu::KbRight
-        unless @image_x.between?(@window.width - 90, @window.width - 70)
-          @image_x += 5
+        unless @x_position.between?(@window.width - 90, @window.width - 70)
+          @x_position += 5
         end
       end
       @bullet_collection.update
     end
 
+    def width
+      @image.width
+    end
+
+    def height
+      @image.height
+    end
+
     def draw
-      @image.draw @image_x, @image_y, 1
+      @image.draw @x_position, @y_position, 1
       @bullet_collection.draw
     end
 
     def x_middle
-      @image_x + @image.width/2
+      @x_position + @image.width/2
     end
 
     def fire!
@@ -41,5 +52,6 @@ module SpaceInvaders
     def bullets
       @bullet_collection
     end
+
   end
 end

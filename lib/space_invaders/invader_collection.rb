@@ -1,5 +1,8 @@
+require 'forwardable'
+
 module SpaceInvaders
   class InvaderCollection
+    extend Forwardable
 
     attr_accessor :direction
     attr_reader :invader_clazz
@@ -18,16 +21,14 @@ module SpaceInvaders
       end
     end
 
+    def_delegators :@invaders, :each, :count, :select, :find, :empty?
+
     def update(direction)
       @invaders.each {|invader| invader.update direction }
     end
 
     def draw
       @invaders.each {|invader| invader.draw }
-    end
-
-    def each(&block)
-      @invaders.each(&block)
     end
 
     def farmost_right_position
@@ -44,12 +45,5 @@ module SpaceInvaders
       end
     end
 
-    def count
-      @invaders.count
-    end
-
-    def empty?
-      @invaders.empty?
-    end
   end
 end

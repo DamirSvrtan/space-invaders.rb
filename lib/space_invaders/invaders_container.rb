@@ -19,23 +19,43 @@ module SpaceInvaders
       @invader_collections << @invaders_c
 
       @change_time = Time.now
+      @can_fire = Time.now
       @direction = :right
+      @bullet_collection = BulletCollection.new
+    end
+
+    def bullets
+      @bullet_collection
     end
 
     def update(bullets)
       check_collision(bullets)
-      if can_change and any_invaders?
-        if farmost_right_position >= @window.width - 80
-          @direction = :left
-        elsif farmost_left_position <= 20
-          @direction = :right
+      if any_invaders?
+        if can_change?
+          if farmost_right_position >= @window.width - 80
+            @direction = :left
+          elsif farmost_left_position <= 20
+            @direction = :right
+          end
+          @invader_collections.each {|invader_collection| invader_collection.update @direction }
+          @change_time = Time.now
         end
-        @invader_collections.each {|invader_collection| invader_collection.update @direction }
-        @change_time = Time.now
       end
+
+      if can_fire?
+        firing_invader = fireable_invaders.sample
+        bullet = Bullet.new @window, firing_invader, false, 5
+        @bullet_collection.bullets << bullet
+        @can_fire = Time.now
+      end
+      @bullet_collection.update
     end
 
-    def can_change
+    def can_fire?
+      Time.now > @can_fire + 1.25
+    end
+
+    def can_change?
       Time.now > @change_time + 0.25
     end
 
@@ -50,6 +70,7 @@ module SpaceInvaders
       @invader_collections.each do |invader_collection|
         invader_collection.draw
       end
+      @bullet_collection.draw
     end
 
     def count
@@ -64,9 +85,16 @@ module SpaceInvaders
       count != 0
     end
 
+    def fireable_invaders
+      InvaderCollection::X_POSITIONS.map do |x_position|
+        @invaders_c.find { |invader| invader.original_x_position == x_position} || @invaders_b.find { |invader| invader.original_x_position == x_position } || @invaders_a.find { |invader| invader.original_x_position == x_position }
+      end.compact
+    end
+
     private
 
       def farmost_right_position
+        fireable_invaders
         @invader_collections.max_by do |invader_collection|
           invader_collection.farmost_right_position
         end.farmost_right_position

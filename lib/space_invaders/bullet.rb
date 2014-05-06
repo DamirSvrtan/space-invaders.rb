@@ -3,20 +3,29 @@ module SpaceInvaders
 
     attr_reader :x_position, :y_position
 
-    def initialize window, ship, going_up
+    def initialize window, fireing_vehicle, going_up, bullet_speed=10
       @window = window
-      @ship = ship
+      @fireing_vehicle = fireing_vehicle
+
       @image = Gosu::Image.new @window, "images/Bullet.png"
-      @x_position = @ship.x_middle - @image.width/2
-      @y_position = @window.height - 50
+
+      @x_position = @fireing_vehicle.x_middle - @image.width/2
+
+      @bullet_speed = bullet_speed
       @going_up = going_up
+
+      if @going_up
+        @y_position = @window.height - 50
+      else
+        @y_position = @fireing_vehicle.y_position - @fireing_vehicle.height/2
+      end
     end
 
     def update
       if @going_up
-        @y_position -= 10
+        @y_position -= @bullet_speed
       else
-        @y_position += 10
+        @y_position += @bullet_speed
       end
     end
 
