@@ -36,9 +36,16 @@ class Ship
     bullet = Bullet.new @window, self, true
     @bullet_collection.bullets << bullet
   end
+
+  def bullets
+    @bullet_collection
+  end
 end
 
 class Bullet
+
+  attr_reader :x_position, :y_position
+
   def initialize window, ship, going_up
     @window = window
     @ship = ship
@@ -76,6 +83,14 @@ class BulletCollection
   def draw
     @bullets.each {|bullet| bullet.draw }
   end
+
+  def each(&block)
+    @bullets.each(&block)
+  end
+
+  def delete(bullet)
+    @bullets.delete(bullet)
+  end
 end
 
 class Invader
@@ -100,10 +115,28 @@ class Invader
     @current_image.draw @x_position, @y_position, 1
   end
 
+  def width
+    @current_image.width
+  end
+
+  def height
+    @current_image.height
+  end
+
   def x_middle
     @x_position + @current_image.width/2
   end
 
+  def collides_with(bullets)
+    bullets.each do |bullet|
+      if bullet.x_position.between?(self.x_position, self.x_position + self.width) and bullet.y_position.between?(self.y_position, self.y_position + self.height)
+        puts "COLLIDES!"
+        bullets.delete(bullet)
+        return true
+      end
+    end
+    false
+  end
 end
 
 [:A, :B, :C].each do |letter|
@@ -157,6 +190,12 @@ class InvaderCollection
   def farmost_left_position
     @invaders.min {|invader| invader.x_position }.x_position
   end
+
+  def check_collision(bullets)
+    @invaders.delete_if do |invader|
+       invader.collides_with bullets
+    end
+  end
 end
 
 class InvadersContainer
@@ -179,7 +218,8 @@ class InvadersContainer
     @direction = :right
   end
 
-  def update
+  def update(bullets)
+    check_collision(bullets)
     if can_change
       if farmost_right_position >= @window.width - 90
         @direction = :left
@@ -193,6 +233,12 @@ class InvadersContainer
 
   def can_change
     Time.now > @change_time + 0.4
+  end
+
+  def check_collision(bullets)
+    @invader_collections.each do |invader_collection|
+      invader_collection.check_collision(bullets)
+    end
   end
 
   def draw
@@ -237,7 +283,7 @@ class SpaceInvaders < Gosu::Window
   end
 
   def update
-    @invaders_container.update
+    @invaders_container.update(@ship.bullets)
     @ship.update
     @score_tracker.update
   end
