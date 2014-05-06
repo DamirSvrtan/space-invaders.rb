@@ -4,7 +4,7 @@ require 'pry'
 class Ship
   def initialize window
     @window = window
-    @image = Gosu::Image.new @window, "Ship@2x.png"
+    @image = Gosu::Image.new @window, "images/Ship.png"
     @image_x = @window.width/2 - 40
     @image_y = @window.height - 50
     @bullet_collection = BulletCollection.new
@@ -49,7 +49,7 @@ class Bullet
   def initialize window, ship, going_up
     @window = window
     @ship = ship
-    @image = Gosu::Image.new @window, "bullet.png"
+    @image = Gosu::Image.new @window, "images/Bullet.png"
     @x_position = @ship.x_middle - @image.width/2
     @y_position = @window.height - 50
     @going_up = going_up
@@ -158,8 +158,8 @@ end
   clazz = Class.new(Invader) do
     def initialize window, x_position=0, y_position=0
       super
-      @first_image = Gosu::Image.new @window, "#{self.class}_00@2x.png"
-      @second_image = Gosu::Image.new @window, "#{self.class}_01@2x.png"
+      @first_image = Gosu::Image.new @window, "images/#{self.class}1.png"
+      @second_image = Gosu::Image.new @window, "images/#{self.class}2.png"
     end
 
     def points
@@ -188,10 +188,14 @@ class InvaderCollection
     @direction = :right
     @invader_clazz = invader_clazz
     @invaders = []
-    [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
+    x_positions.each do |x_position|
       invader = invader_clazz.new(window, x_position, y_position)
       @invaders << invader
     end
+  end
+
+  def x_positions
+    [40, 110, 180, 250, 320, 390, 460, 530]
   end
 
   def update(direction)
