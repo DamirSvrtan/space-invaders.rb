@@ -181,11 +181,13 @@ class InvaderCollection
   attr_accessor :direction
   # attr_reader :invaders
 
+  attr_reader :invader_clazz
   def initialize window, y_position, invader_clazz
     @window = window
     @y_position = y_position
     @invaders = []
     @direction = :right
+    @invader_clazz = invader_clazz
     [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
       invader = invader_clazz.new(window, x_position, y_position)
       @invaders << invader
@@ -209,17 +211,21 @@ class InvaderCollection
   end
 
   def farmost_right_position
-    @invaders.max {|invader| invader.x_position }.x_position
+    @invaders.max_by {|invader| invader.x_position }.x_position
   end
 
   def farmost_left_position
-    @invaders.min {|invader| invader.x_position }.x_position
+    @invaders.min_by {|invader| invader.x_position }.x_position
   end
 
   def check_collision(bullets)
     @invaders.delete_if do |invader|
        invader.collides_with bullets
     end
+  end
+
+  def count
+    @invaders.count
   end
 end
 
@@ -246,7 +252,7 @@ class InvadersContainer
   def update(bullets)
     check_collision(bullets)
     if can_change
-      if farmost_right_position >= @window.width - 90
+      if farmost_right_position >= @window.width - 80
         @direction = :left
       elsif farmost_left_position <= 20
         @direction = :right
@@ -257,7 +263,7 @@ class InvadersContainer
   end
 
   def can_change
-    Time.now > @change_time + 0.4
+    Time.now > @change_time + 0.25
   end
 
   def check_collision(bullets)
@@ -272,20 +278,27 @@ class InvadersContainer
     end
   end
 
+  def count
+    count = 0
+    @invader_collections.each do |invader_collection|
+      count += invader_collection.count
+    end
+    count
+  end
+
   private
 
     def farmost_right_position
-      @invader_collections.max do |invader_collection|
+      @invader_collections.max_by do |invader_collection|
         invader_collection.farmost_right_position
       end.farmost_right_position
     end
 
     def farmost_left_position
-      @invader_collections.min do |invader_collection|
+      @invader_collections.min_by do |invader_collection|
         invader_collection.farmost_left_position
       end.farmost_left_position
     end
-
 end
 
 class SpaceInvaders < Gosu::Window
@@ -312,7 +325,6 @@ class SpaceInvaders < Gosu::Window
   def update
     @invaders_container.update(@ship.bullets)
     @ship.update
-    @score_tracker.update
   end
 
   def draw
@@ -338,9 +350,6 @@ class ScoreTracker
 
   def set_score_number
     @score_number = Gosu::Image.from_text @window, @score, Gosu.default_font_name, 30
-  end
-
-  def update
   end
 
   def draw
