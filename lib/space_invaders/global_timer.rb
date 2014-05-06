@@ -27,6 +27,19 @@ module SpaceInvaders
         @@start_time = nil
         @@stop_time = nil
       end
+
+      def draw(window)
+        timer_headline(window).draw 200, 10, 1
+        timer_number(window).draw 300, 10, 1
+      end
+
+      def timer_headline(window)
+        @@timer_headline ||= Gosu::Image.from_text window, "Time:", Gosu.default_font_name, 30
+      end
+
+      def timer_number(window)
+        Gosu::Image.from_text window, GlobalTimer.time.round(1), Gosu.default_font_name, 30
+      end
     end
 
   end

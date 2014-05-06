@@ -45,7 +45,7 @@ module SpaceInvaders
         @invaders_container.draw
         @ship.draw
       end
-      timer.draw 200, 10, 1
+      GlobalTimer.draw(self)
       @score_tracker.draw
     end
 
@@ -55,10 +55,6 @@ module SpaceInvaders
 
     def game_over
       @game_over ||= Gosu::Image.from_text self, "Game Over", Gosu.default_font_name, 100
-    end
-
-    def timer
-      Gosu::Image.from_text self, "Time: #{GlobalTimer.time}", Gosu.default_font_name, 30
     end
   end
 end
