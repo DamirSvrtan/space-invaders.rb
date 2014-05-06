@@ -26,29 +26,30 @@ module SpaceInvaders
     end
 
     def update
-      if @invaders_container.any_invaders?
+      if @invaders_container.any_invaders? and @ship.alive?
         @invaders_container.update(@ship.bullets)
-        @ship.update
+        @ship.update(@invaders_container.bullets)
       end
-      # puts "-------------"
-      # @invaders_container.fireable_invaders.each do |inv|
-      #   print inv.class
-      # end
-      # puts "\n-------------"
     end
 
     def draw
-      if @invaders_container.any_invaders?
+      if @ship.drowned?
+        game_over.draw 100, 100, 1
+      elsif @invaders_container.no_invaders?
+        congratulations.draw 100, 100, 1
+      else
         @invaders_container.draw
         @ship.draw
-      else
-        congratulations.draw 100, 100, 1
       end
       @score_tracker.draw
     end
 
     def congratulations
       @congratulations ||= Gosu::Image.from_text self, "Congratulations!", Gosu.default_font_name, 100
+    end
+
+    def game_over
+      @game_over ||= Gosu::Image.from_text self, "Game Over", Gosu.default_font_name, 100
     end
   end
 end

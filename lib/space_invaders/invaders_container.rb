@@ -77,6 +77,10 @@ module SpaceInvaders
       count != 0
     end
 
+    def no_invaders?
+      count == 0
+    end
+
     def fireable_invaders
       InvaderCollection::X_POSITIONS.map do |x_position|
         @invaders_c.find { |invader| invader.original_x_position == x_position } ||
