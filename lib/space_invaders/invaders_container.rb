@@ -29,7 +29,11 @@ module SpaceInvaders
         elsif farmost_left_position <= 20
           @direction = :right
         end
-        @invader_collections.each {|invader_collection| invader_collection.update @direction }
+
+        @invader_collections.each do |invader_collection| 
+          invader_collection.update @direction
+        end
+
         @change_time = Time.now
       end
 
