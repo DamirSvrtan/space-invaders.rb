@@ -41,8 +41,8 @@ module SpaceInvaders
 
     def check_collision(bullets)
       @invaders.delete_if do |invader|
-        invader.collides_with? bullets do |invader|
-          invader.window.score_tracker.increase_by(invader.points)
+        if invader.collides_with? bullets
+          @window.score_tracker.increase_by(invader.points)
         end
       end
     end
