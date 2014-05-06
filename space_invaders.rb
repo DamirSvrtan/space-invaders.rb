@@ -227,6 +227,10 @@ class InvaderCollection
   def count
     @invaders.count
   end
+
+  def empty?
+    @invaders.empty?
+  end
 end
 
 class InvadersContainer
@@ -270,6 +274,7 @@ class InvadersContainer
     @invader_collections.each do |invader_collection|
       invader_collection.check_collision(bullets)
     end
+    @invader_collections.delete_if {|invader_collection| invader_collection.empty?}
   end
 
   def draw
@@ -284,6 +289,10 @@ class InvadersContainer
       count += invader_collection.count
     end
     count
+  end
+
+  def any_invaders?
+    count != 0
   end
 
   private
@@ -316,23 +325,32 @@ class SpaceInvaders < Gosu::Window
 
   def button_down id
     if id == Gosu::KbEscape
-      close 
+      close
     elsif id == Gosu::KbSpace
       @ship.fire!
     end
   end
 
   def update
-    @invaders_container.update(@ship.bullets)
-    @ship.update
+    if @invaders_container.any_invaders?
+      @invaders_container.update(@ship.bullets)
+      @ship.update
+    end
   end
 
   def draw
-    @invaders_container.draw
+    if @invaders_container.any_invaders?
+      @invaders_container.draw
+    else
+      congratulations.draw 100, 100, 1
+    end
     @ship.draw
     @score_tracker.draw
   end
 
+  def congratulations
+    @congratulations ||= Gosu::Image.from_text self, "Congratulations!", Gosu.default_font_name, 100
+  end
 end
 
 class ScoreTracker
