@@ -17,7 +17,7 @@ module SpaceInvaders
       if @going_up
         @y_position = @window.height - 50
       else
-        @y_position = @fireing_vehicle.y_position - @fireing_vehicle.height/2
+        @y_position = @fireing_vehicle.y_position + @fireing_vehicle.height
       end
     end
 
