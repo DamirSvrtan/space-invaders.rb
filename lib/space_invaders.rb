@@ -1,0 +1,2 @@
+module SpaceInvaders
+end
