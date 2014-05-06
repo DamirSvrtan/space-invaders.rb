@@ -25,18 +25,5 @@ module SpaceInvaders
       raise NotImplementedError.new("You must implement the inherited points method")
     end
 
-    def collides_with?(bullets)
-      bullets.each do |bullet|
-        if bullet.x_position.between?(self.x_position, self.x_position + self.width) and
-           bullet.y_position.between?(self.y_position, self.y_position + self.height)
-
-          @window.score_tracker.increase_by(points)
-          bullets.delete(bullet)
-          return true
-        end
-      end
-      false
-    end
-
   end
 end

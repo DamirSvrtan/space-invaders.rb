@@ -3,7 +3,7 @@ require_relative 'bullet_collection'
 
 module SpaceInvaders
   class AbstractVehicle
-    attr_accessor :x_position, :y_position
+    attr_accessor :window, :x_position, :y_position
 
     def initialize window
       @window = window
@@ -29,6 +29,18 @@ module SpaceInvaders
     def draw
       @image.draw @x_position, @y_position, 1
       @bullet_collection.draw
+    end
+
+    def collides_with?(bullets)
+      bullets.each do |bullet|
+        if bullet.x_position.between?(self.x_position, self.x_position + self.width) and
+           bullet.y_position.between?(self.y_position, self.y_position + self.height)
+          yield self if block_given?
+          bullets.delete(bullet)
+          return true
+        end
+      end
+      return false
     end
 
   end

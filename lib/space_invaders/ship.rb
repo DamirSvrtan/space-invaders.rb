@@ -15,7 +15,9 @@ module SpaceInvaders
     end
 
     def update(bullets)
-      unless collides_with?(bullets)
+      if collides_with? bullets 
+        self.drowned = true
+      else
         if @window.button_down? Gosu::KbLeft
           unless @x_position.between?(0, 20)
             @x_position += -5
@@ -38,16 +40,5 @@ module SpaceInvaders
       @bullet_collection.bullets << bullet
     end
 
-    def collides_with?(bullets)
-      bullets.each do |bullet|
-        if bullet.x_position.between?(self.x_position, self.x_position + self.width) and
-           bullet.y_position.between?(self.y_position, self.y_position + self.height)
-          self.drowned = true
-          bullets.delete(bullet)
-          return true
-        end
-      end
-      false
-    end
   end
 end
