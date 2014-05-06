@@ -40,7 +40,7 @@ class Bullet
   end
 
   def update
-    @y_position -= 5
+    @y_position -= 10
   end
 
   def draw
@@ -106,6 +106,14 @@ class Invader
   end
 
   def update
+    if can_change
+      @current_image = @was_first_image ? @second_image : @first_image
+      @change_time = Time.now
+      @was_first_image = !@was_first_image
+      @x_position += 10
+    else
+      @current_image = @was_first_image ? @first_image : @second_image
+    end
   end
 
   def can_change
@@ -113,16 +121,13 @@ class Invader
   end
 
   def draw
-    if can_change
-      current_image = @was_first_image ? @second_image : @first_image
-      @change_time = Time.now
-      @was_first_image = !@was_first_image
-    else
-      current_image = @was_first_image ? @first_image : @second_image
-    end
-
-    current_image.draw @x_position, @y_position, 1
+    @current_image.draw @x_position, @y_position, 1
   end
+
+  def x_middle
+    @x_position + @current_image.width/2
+  end
+
 end
 
 # class InvaderA < Invader
@@ -167,8 +172,8 @@ class SpaceInvaders < Gosu::Window
     super
     self.caption = "Sprite Demonstration"
     @invader_a = InvaderA.new self, 110, 0
-    @invader_b = InvaderB.new self, 190, 0
-    @invader_c = InvaderC.new self, 270, 0
+    @invader_b = InvaderB.new self, 180, 0
+    @invader_c = InvaderC.new self, 250, 0
     @ship = Ship.new self
   end
 
