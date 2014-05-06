@@ -166,6 +166,13 @@ end
   Object.const_set(clazz_name, clazz)
 end
 
+class BulletCollection
+  @@bullets = []
+  def self.bullets
+    @@bullets
+  end
+end
+
 class SpaceInvaders < Gosu::Window
 
   def initialize width=800, height=600, fullscreen=false
@@ -181,7 +188,8 @@ class SpaceInvaders < Gosu::Window
     if id == Gosu::KbEscape
       close 
     elsif id == Gosu::KbSpace
-      @bullet = Bullet.new self, @ship
+      bullet = Bullet.new self, @ship
+      BulletCollection.bullets << bullet
     end
   end
 
@@ -190,7 +198,9 @@ class SpaceInvaders < Gosu::Window
     @invader_b.update
     @invader_c.update
     @ship.update
-    @bullet.update if @bullet
+    BulletCollection.bullets.each do |bullet|
+      bullet.update
+    end
   end
 
   def draw
@@ -198,7 +208,9 @@ class SpaceInvaders < Gosu::Window
     @invader_b.draw
     @invader_c.draw
     @ship.draw
-    @bullet.draw if @bullet
+    BulletCollection.bullets.each do |bullet|
+      bullet.draw
+    end
   end
 
 end
