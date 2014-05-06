@@ -116,37 +116,23 @@ class InvaderCollection
   attr_accessor :direction
   # attr_reader :invaders
 
-  def initialize window, y_position, invader_id
+  def initialize window, y_position, invader_clazz
     @window = window
     @y_position = y_position
     @invaders = []
     @direction = :right
-    invader_constant = Object.const_get("Invader#{invader_id}")
     [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
-      invader = invader_constant.new(window, x_position, y_position)
+      invader = invader_clazz.new(window, x_position, y_position)
       @invaders << invader
     end
-    @change_time = Time.now
-  end
-
-  def can_change
-    Time.now > @change_time + 0.4
   end
 
   def invaders
     @invaders
   end
 
-  def update
-    if can_change
-      if farmost_right.x_position >= @window.width - 90
-        @direction = :left
-      elsif farmost_left.x_position <= 20
-        @direction = :right
-      end
-      @invaders.each {|invader| invader.update @direction }
-      @change_time = Time.now
-    end
+  def update(direction)
+    @invaders.each {|invader| invader.update direction }
   end
 
   def draw
@@ -157,17 +143,96 @@ class InvaderCollection
     @invaders.each(&block)
   end
 
-  def farmost_right
-    @invaders.max {|invader| invader.x_position }
+  def farmost_right_position
+    @invaders.max {|invader| invader.x_position }.x_position
   end
 
-  def farmost_left
-    @invaders.min {|invader| invader.x_position }
+  def farmost_left_position
+    @invaders.min {|invader| invader.x_position }.x_position
   end
 end
 
-class CollisionDetector
-  # def self.detect 
+class InvadersContainer
+
+  attr_reader :invader_collections
+
+  def initialize window
+    @window = window
+    @invader_collections = []
+    @change_time = Time.now
+    @direction = :right
+  end
+
+  def update
+    if can_change
+      if farmost_right_position >= @window.width - 90
+        @direction = :left
+      elsif farmost_left_position <= 20
+        @direction = :right
+      end
+      @invader_collections.each {|invader_collection| invader_collection.update @direction }
+      @change_time = Time.now
+    end
+  end
+
+  def can_change
+    Time.now > @change_time + 0.4
+  end
+
+  def draw
+    @invader_collections.each {|invader_collection| invader_collection.draw }
+  end
+
+  def farmost_right_position
+    @invader_collections.max {|invader_collection| invader_collection.farmost_right_position }.farmost_right_position
+  end
+
+  def farmost_left_position
+    @invader_collections.min {|invader_collection| invader_collection.farmost_left_position }.farmost_left_position
+  end
+end
+
+class SpaceInvaders < Gosu::Window
+
+  def initialize width=800, height=600, fullscreen=false
+    super
+    self.caption = "Sprite Demonstration"
+    @invaders_a = InvaderCollection.new self, 300, InvaderA
+    @invaders_b = InvaderCollection.new self, 350, InvaderB
+    @invaders_c = InvaderCollection.new self, 400, InvaderC
+
+    @invaders_container = InvadersContainer.new self
+    @invaders_container.invader_collections << @invaders_a
+    @invaders_container.invader_collections << @invaders_b
+    @invaders_container.invader_collections << @invaders_c
+
+    @ship = Ship.new self
+    @score_tracker = ScoreTracker.new self
+  end
+
+  def button_down id
+    if id == Gosu::KbEscape
+      close 
+    elsif id == Gosu::KbSpace
+      bullet = Bullet.new self, @ship
+      BulletCollection.bullets << bullet
+    end
+  end
+
+  def update
+    @invaders_container.update
+    @ship.update
+    BulletCollection.update
+    @score_tracker.update
+  end
+
+  def draw
+    @invaders_container.draw
+    @ship.draw
+    BulletCollection.draw
+    @score_tracker.draw
+  end
+
 end
 
 class ScoreTracker
@@ -187,47 +252,6 @@ class ScoreTracker
   def draw
     @image.draw 10, 10, 1
   end
-end
-
-class SpaceInvaders < Gosu::Window
-
-  def initialize width=800, height=600, fullscreen=false
-    super
-    self.caption = "Sprite Demonstration"
-    @invaders_a = InvaderCollection.new self, 300, "A"
-    @invaders_b = InvaderCollection.new self, 350, "B"
-    @invaders_c = InvaderCollection.new self, 400, "C"
-    @ship = Ship.new self
-    @score_tracker = ScoreTracker.new self
-  end
-
-  def button_down id
-    if id == Gosu::KbEscape
-      close 
-    elsif id == Gosu::KbSpace
-      bullet = Bullet.new self, @ship
-      BulletCollection.bullets << bullet
-    end
-  end
-
-  def update
-    @invaders_a.update
-    @invaders_b.update
-    @invaders_c.update
-    @ship.update
-    BulletCollection.update
-    @score_tracker.update
-  end
-
-  def draw
-    @invaders_a.draw
-    @invaders_b.draw
-    @invaders_c.draw
-    @ship.draw
-    BulletCollection.draw
-    @score_tracker.draw
-  end
-
 end
 
 SpaceInvaders.new.show
