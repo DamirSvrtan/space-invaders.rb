@@ -141,7 +141,7 @@ class Invader
     @x_position + @current_image.width/2
   end
 
-  def collides_with(bullets)
+  def collides_with?(bullets)
     bullets.each do |bullet|
       if bullet.x_position.between?(self.x_position, self.x_position + self.width) and bullet.y_position.between?(self.y_position, self.y_position + self.height)
         @window.score_tracker.increase_by(points)
@@ -185,17 +185,13 @@ class InvaderCollection
   def initialize window, y_position, invader_clazz
     @window = window
     @y_position = y_position
-    @invaders = []
     @direction = :right
     @invader_clazz = invader_clazz
+    @invaders = []
     [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
       invader = invader_clazz.new(window, x_position, y_position)
       @invaders << invader
     end
-  end
-
-  def invaders
-    @invaders
   end
 
   def update(direction)
@@ -220,7 +216,7 @@ class InvaderCollection
 
   def check_collision(bullets)
     @invaders.delete_if do |invader|
-       invader.collides_with bullets
+      invader.collides_with? bullets
     end
   end
 
