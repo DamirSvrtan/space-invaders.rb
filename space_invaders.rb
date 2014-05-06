@@ -143,6 +143,30 @@ class InvaderCollection
   end
 
 end
+
+class CollisionDetector
+  # def self.detect 
+end
+
+class ScoreTracker
+  def initialize window
+    @window = window
+    @score = 0
+    @image = Gosu::Image.from_text window, "Score: #{@score}", Gosu.default_font_name, 30
+  end
+
+  def increase_by number
+    @score += number
+  end
+
+  def update
+  end
+
+  def draw
+    @image.draw 10, 10, 1
+  end
+end
+
 class SpaceInvaders < Gosu::Window
 
   def initialize width=800, height=600, fullscreen=false
@@ -152,6 +176,7 @@ class SpaceInvaders < Gosu::Window
     @invaders_b = InvaderCollection.new self, 350, "B"
     @invaders_c = InvaderCollection.new self, 400, "C"
     @ship = Ship.new self
+    @score_tracker = ScoreTracker.new self
   end
 
   def button_down id
@@ -169,6 +194,7 @@ class SpaceInvaders < Gosu::Window
     @invaders_c.update
     @ship.update
     BulletCollection.update
+    @score_tracker.update
   end
 
   def draw
@@ -177,6 +203,7 @@ class SpaceInvaders < Gosu::Window
     @invaders_c.draw
     @ship.draw
     BulletCollection.draw
+    @score_tracker.draw
   end
 
 end
