@@ -171,16 +171,56 @@ class BulletCollection
   def self.bullets
     @@bullets
   end
+
+  def self.update
+
+  end
+  def self.draw
+
+  end
 end
 
+class InvaderCollection
+
+  def initialize window, y_position, invader_id
+    @window = window
+    @y_position = y_position
+    @invaders = []
+    invader_constant = Object.const_get("Invader#{invader_id}")
+    [40, 110, 180, 250, 320, 390, 460, 530].each do |x_position|
+      invader = invader_constant.new(window, x_position, y_position)
+      @invaders << invader
+    end
+  end
+
+  def invaders
+    @invaders
+  end
+
+  def update
+    @invaders.each {|invader| invader.update }
+  end
+
+  def draw
+    @invaders.each {|invader| invader.draw }
+  end
+
+  def each(&block)
+    @invaders.each(&block)
+  end
+
+end
 class SpaceInvaders < Gosu::Window
 
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = "Sprite Demonstration"
-    @invader_a = InvaderA.new self, 110, 0
-    @invader_b = InvaderB.new self, 180, 0
-    @invader_c = InvaderC.new self, 250, 0
+    # @invader_a = InvaderA.new self, 110, 0
+    # @invader_b = InvaderB.new self, 180, 0
+    # @invader_c = InvaderC.new self, 250, 0
+    @invaders_a = InvaderCollection.new self, 300, "A"
+    @invaders_b = InvaderCollection.new self, 350, "B"
+    @invaders_c = InvaderCollection.new self, 400, "C"
     @ship = Ship.new self
   end
 
@@ -194,9 +234,13 @@ class SpaceInvaders < Gosu::Window
   end
 
   def update
-    @invader_a.update
-    @invader_b.update
-    @invader_c.update
+    # @invader_a.update
+    # @invader_b.update
+    # @invader_c.update
+    @invaders_a.update
+    @invaders_b.update
+    @invaders_c.update
+
     @ship.update
     BulletCollection.bullets.each do |bullet|
       bullet.update
@@ -204,9 +248,12 @@ class SpaceInvaders < Gosu::Window
   end
 
   def draw
-    @invader_a.draw
-    @invader_b.draw
-    @invader_c.draw
+    # @invader_a.draw
+    # @invader_b.draw
+    # @invader_c.draw
+    @invaders_a.draw
+    @invaders_b.draw
+    @invaders_c.draw
     @ship.draw
     BulletCollection.bullets.each do |bullet|
       bullet.draw
