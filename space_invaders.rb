@@ -7,6 +7,7 @@ class Ship
     @image = Gosu::Image.new @window, "Ship@2x.png"
     @image_x = @window.width/2 - 40
     @image_y = @window.height - 50
+    @bullet_collection = BulletCollection.new
   end
 
   def update
@@ -19,32 +20,61 @@ class Ship
         @image_x += 5
       end
     end
+    @bullet_collection.update
   end
 
   def draw
     @image.draw @image_x, @image_y, 1
+    @bullet_collection.draw
   end
 
   def x_middle
     @image_x + @image.width/2
   end
+
+  def fire!
+    bullet = Bullet.new @window, self, true
+    @bullet_collection.bullets << bullet
+  end
 end
 
 class Bullet
-  def initialize window, ship
+  def initialize window, ship, going_up
     @window = window
     @ship = ship
     @image = Gosu::Image.new @window, "bullet.png"
     @x_position = @ship.x_middle - @image.width/2
     @y_position = @window.height - 50
+    @going_up = going_up
   end
 
   def update
-    @y_position -= 10
+    if @going_up
+      @y_position -= 10
+    else
+      @y_position += 10
+    end
   end
 
   def draw
     @image.draw @x_position, @y_position, 1
+  end
+end
+
+class BulletCollection
+
+  attr_reader :bullets
+
+  def initialize
+    @bullets = []
+  end
+
+  def update
+    @bullets.each { |bullet| bullet.update }
+  end
+
+  def draw
+    @bullets.each {|bullet| bullet.draw }
   end
 end
 
@@ -90,25 +120,6 @@ end
     end
   end
   Object.const_set(clazz_name, clazz)
-end
-
-class BulletCollection
-  @@bullets = []
-  def self.bullets
-    @@bullets
-  end
-
-  def self.update
-    @@bullets.each do |bullet|
-      bullet.update
-    end
-  end
-
-  def self.draw
-    @@bullets.each do |bullet|
-      bullet.draw
-    end
-  end
 end
 
 class InvaderCollection
@@ -180,16 +191,23 @@ class InvadersContainer
   end
 
   def draw
-    @invader_collections.each {|invader_collection| invader_collection.draw }
+    @invader_collections.each do |invader_collection|
+      invader_collection.draw
+    end
   end
 
   def farmost_right_position
-    @invader_collections.max {|invader_collection| invader_collection.farmost_right_position }.farmost_right_position
+    @invader_collections.max do |invader_collection|
+      invader_collection.farmost_right_position
+    end.farmost_right_position
   end
 
   def farmost_left_position
-    @invader_collections.min {|invader_collection| invader_collection.farmost_left_position }.farmost_left_position
+    @invader_collections.min do |invader_collection|
+      invader_collection.farmost_left_position
+    end.farmost_left_position
   end
+
 end
 
 class SpaceInvaders < Gosu::Window
@@ -197,16 +215,17 @@ class SpaceInvaders < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = "Sprite Demonstration"
+
     @invaders_a = InvaderCollection.new self, 300, InvaderA
     @invaders_b = InvaderCollection.new self, 350, InvaderB
     @invaders_c = InvaderCollection.new self, 400, InvaderC
-
     @invaders_container = InvadersContainer.new self
     @invaders_container.invader_collections << @invaders_a
     @invaders_container.invader_collections << @invaders_b
     @invaders_container.invader_collections << @invaders_c
 
     @ship = Ship.new self
+
     @score_tracker = ScoreTracker.new self
   end
 
@@ -214,22 +233,19 @@ class SpaceInvaders < Gosu::Window
     if id == Gosu::KbEscape
       close 
     elsif id == Gosu::KbSpace
-      bullet = Bullet.new self, @ship
-      BulletCollection.bullets << bullet
+      @ship.fire!
     end
   end
 
   def update
     @invaders_container.update
     @ship.update
-    BulletCollection.update
     @score_tracker.update
   end
 
   def draw
     @invaders_container.draw
     @ship.draw
-    BulletCollection.draw
     @score_tracker.draw
   end
 
