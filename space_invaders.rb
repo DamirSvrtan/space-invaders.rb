@@ -66,6 +66,15 @@ class Bullet
   def draw
     @image.draw @x_position, @y_position, 1
   end
+
+  def out_of_screen
+    if @going_up
+      @y_position < 0
+    else
+      @y_position > @window.height
+    end
+  end
+
 end
 
 class BulletCollection
@@ -77,6 +86,7 @@ class BulletCollection
   end
 
   def update
+    @bullets.delete_if {|bullet| bullet.out_of_screen}
     @bullets.each { |bullet| bullet.update }
   end
 
@@ -134,7 +144,6 @@ class Invader
   def collides_with(bullets)
     bullets.each do |bullet|
       if bullet.x_position.between?(self.x_position, self.x_position + self.width) and bullet.y_position.between?(self.y_position, self.y_position + self.height)
-        puts "COLLIDES!"
         @window.score_tracker.increase_by(points)
         bullets.delete(bullet)
         return true
@@ -154,14 +163,12 @@ end
     end
 
     def points
-      case self.class
+      case self
       when InvaderA
         30
       when InvaderB
         20
       when InvaderC
-        10
-      else
         10
       end
     end
