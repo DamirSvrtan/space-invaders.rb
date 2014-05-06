@@ -48,54 +48,6 @@ class Bullet
   end
 end
 
-class Sprite
-  def initialize window
-    @window = window
-    # image
-    @width = @height = 160
-    # @idle = Gosu::Image.load_tiles @window,
-    #                                "player_160x160_idle.png",
-    #                                @width, @height, true
-    # @move = Gosu::Image.load_tiles @window,
-    #                                "player_160x160_move.png",
-    #                                @width, @height, true
-    @invader_a = Gosu::Image.new @window, "InvaderA_00@2x.png"
-    @invader_b = Gosu::Image.new @window, "InvaderB_00@2x.png"
-    @invader_c = Gosu::Image.new @window, "InvaderC_00@2x.png"
-    # @ship = Gosu::Image.new @window, "Ship@2x.png"
-    # @ship_x = window.width/2 - 40
-    # center image
-    @x = @window.width/2  - @width/2
-    @y = @window.height/2 - @height/2
-    # direction and movement
-    @direction = :right
-    @frame = 3
-    @moving = false
-  end
-
-  def update
-
-  end
-
-  def draw
-    # @move and @idle are the same size,
-    # so we can use the same frame calc.
-    @invader_a.draw 0, 0, 1
-    @invader_b.draw 60, 0, 1
-    @invader_c.draw 120, 0, 1
-
-    # @ship.draw @ship_x, @window.height - 50, 1
-    # f = @frame % @idle.size
-    # image = @space_invaders[f]
-    # if @direction == :right
-    #   image.draw @x, @y, 1
-    # else
-    #   image.draw @x + @width, @y, 1, -1, 1
-    # end
-  end
-
-end
-
 class Invader
   def initialize window, x_position=0, y_position=0
     @window = window
@@ -130,30 +82,6 @@ class Invader
 
 end
 
-# class InvaderA < Invader
-#   def initialize window, x_position=0, y_position=0
-#     super
-#     @first_image = Gosu::Image.new @window, "InvaderA_00@2x.png"
-#     @second_image = Gosu::Image.new @window, "InvaderA_01@2x.png"
-#   end
-# end
-
-# class InvaderB < Invader
-#   def initialize window, x_position=0, y_position=0
-#     super
-#     @first_image = Gosu::Image.new @window, "InvaderB_00@2x.png"
-#     @second_image = Gosu::Image.new @window, "InvaderB_01@2x.png"
-#   end
-# end
-
-# class InvaderC < Invader
-#   def initialize window, x_position=0, y_position=0
-#     super
-#     @first_image = Gosu::Image.new @window, "InvaderC_00@2x.png"
-#     @second_image = Gosu::Image.new @window, "InvaderC_01@2x.png"
-#   end
-# end
-
 [:A, :B, :C].each do |letter|
   clazz_name = "Invader#{letter}"
   clazz = Class.new(Invader) do
@@ -173,10 +101,15 @@ class BulletCollection
   end
 
   def self.update
-
+    @@bullets.each do |bullet|
+      bullet.update
+    end
   end
-  def self.draw
 
+  def self.draw
+    @@bullets.each do |bullet|
+      bullet.draw
+    end
   end
 end
 
@@ -215,9 +148,6 @@ class SpaceInvaders < Gosu::Window
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = "Sprite Demonstration"
-    # @invader_a = InvaderA.new self, 110, 0
-    # @invader_b = InvaderB.new self, 180, 0
-    # @invader_c = InvaderC.new self, 250, 0
     @invaders_a = InvaderCollection.new self, 300, "A"
     @invaders_b = InvaderCollection.new self, 350, "B"
     @invaders_c = InvaderCollection.new self, 400, "C"
@@ -234,30 +164,19 @@ class SpaceInvaders < Gosu::Window
   end
 
   def update
-    # @invader_a.update
-    # @invader_b.update
-    # @invader_c.update
     @invaders_a.update
     @invaders_b.update
     @invaders_c.update
-
     @ship.update
-    BulletCollection.bullets.each do |bullet|
-      bullet.update
-    end
+    BulletCollection.update
   end
 
   def draw
-    # @invader_a.draw
-    # @invader_b.draw
-    # @invader_c.draw
     @invaders_a.draw
     @invaders_b.draw
     @invaders_c.draw
     @ship.draw
-    BulletCollection.bullets.each do |bullet|
-      bullet.draw
-    end
+    BulletCollection.draw
   end
 
 end
