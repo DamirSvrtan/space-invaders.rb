@@ -115,6 +115,10 @@ class Invader
     @current_image.draw @x_position, @y_position, 1
   end
 
+  def points
+    raise NotImplementedError.new("You must implement the inherited points method")
+  end
+
   def width
     @current_image.width
   end
@@ -131,6 +135,7 @@ class Invader
     bullets.each do |bullet|
       if bullet.x_position.between?(self.x_position, self.x_position + self.width) and bullet.y_position.between?(self.y_position, self.y_position + self.height)
         puts "COLLIDES!"
+        @window.score_tracker.increase_by(points)
         bullets.delete(bullet)
         return true
       end
@@ -146,6 +151,19 @@ end
       super
       @first_image = Gosu::Image.new @window, "#{self.class}_00@2x.png"
       @second_image = Gosu::Image.new @window, "#{self.class}_01@2x.png"
+    end
+
+    def points
+      case self.class
+      when InvaderA
+        30
+      when InvaderB
+        20
+      when InvaderC
+        10
+      else
+        10
+      end
     end
   end
   Object.const_set(clazz_name, clazz)
@@ -265,6 +283,8 @@ end
 
 class SpaceInvaders < Gosu::Window
 
+  attr_reader :score_tracker
+
   def initialize width=800, height=600, fullscreen=false
     super
     self.caption = "Sprite Demonstration"
@@ -300,18 +320,25 @@ class ScoreTracker
   def initialize window
     @window = window
     @score = 0
-    @image = Gosu::Image.from_text window, "Score: #{@score}", Gosu.default_font_name, 30
+    @score_headline = Gosu::Image.from_text @window, "Score:", Gosu.default_font_name, 30
+    set_score_number
   end
 
   def increase_by number
     @score += number
+    set_score_number
+  end
+
+  def set_score_number
+    @score_number = Gosu::Image.from_text @window, @score, Gosu.default_font_name, 30
   end
 
   def update
   end
 
   def draw
-    @image.draw 10, 10, 1
+    @score_headline.draw 10, 10, 1
+    @score_number.draw 100, 11, 1, 1, 1, Gosu::Color::GREEN
   end
 end
 
