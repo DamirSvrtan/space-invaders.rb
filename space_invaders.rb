@@ -91,12 +91,8 @@ class Invader
 
   def update(direction)
     @was_first_image = !@was_first_image
-    if direction == :right
-      @x_position += 10
-    else
-      @x_position -= 10
-    end
-    # @current_image = @was_first_image ? @second_image : @first_image
+    offset = direction == :right ? 10 : -10
+    @x_position += offset
     @current_image = @was_first_image ? @first_image : @second_image
   end
 
@@ -169,7 +165,16 @@ class InvadersContainer
 
   def initialize window
     @window = window
+
+    @invaders_a = InvaderCollection.new @window, 300, InvaderA
+    @invaders_b = InvaderCollection.new @window, 350, InvaderB
+    @invaders_c = InvaderCollection.new @window, 400, InvaderC
+
     @invader_collections = []
+    @invader_collections << @invaders_a
+    @invader_collections << @invaders_b
+    @invader_collections << @invaders_c
+
     @change_time = Time.now
     @direction = :right
   end
@@ -196,17 +201,19 @@ class InvadersContainer
     end
   end
 
-  def farmost_right_position
-    @invader_collections.max do |invader_collection|
-      invader_collection.farmost_right_position
-    end.farmost_right_position
-  end
+  private
 
-  def farmost_left_position
-    @invader_collections.min do |invader_collection|
-      invader_collection.farmost_left_position
-    end.farmost_left_position
-  end
+    def farmost_right_position
+      @invader_collections.max do |invader_collection|
+        invader_collection.farmost_right_position
+      end.farmost_right_position
+    end
+
+    def farmost_left_position
+      @invader_collections.min do |invader_collection|
+        invader_collection.farmost_left_position
+      end.farmost_left_position
+    end
 
 end
 
@@ -216,16 +223,8 @@ class SpaceInvaders < Gosu::Window
     super
     self.caption = "Sprite Demonstration"
 
-    @invaders_a = InvaderCollection.new self, 300, InvaderA
-    @invaders_b = InvaderCollection.new self, 350, InvaderB
-    @invaders_c = InvaderCollection.new self, 400, InvaderC
     @invaders_container = InvadersContainer.new self
-    @invaders_container.invader_collections << @invaders_a
-    @invaders_container.invader_collections << @invaders_b
-    @invaders_container.invader_collections << @invaders_c
-
     @ship = Ship.new self
-
     @score_tracker = ScoreTracker.new self
   end
 
