@@ -1,13 +1,13 @@
 module SpaceInvaders
-  class Bullet
+  class Bullet < Base
 
     attr_reader :x_position, :y_position
 
-    def initialize window, fireing_vehicle, going_up, bullet_speed=10
-      @window = window
+    def initialize application, fireing_vehicle, going_up, bullet_speed=10
+      @application = application
       @fireing_vehicle = fireing_vehicle
 
-      @image = @window.bullet_image
+      @image = application.bullet_image
 
       @x_position = @fireing_vehicle.x_middle - @image.width/2
 
@@ -15,7 +15,7 @@ module SpaceInvaders
       @going_up = going_up
 
       if @going_up
-        @y_position = @window.height - 50
+        @y_position = @application.height - 50
       else
         @y_position = @fireing_vehicle.y_position + @fireing_vehicle.height
       end
@@ -37,7 +37,7 @@ module SpaceInvaders
       if @going_up
         @y_position < 0
       else
-        @y_position > @window.height
+        @y_position > @application.height
       end
     end
 

@@ -1,9 +1,10 @@
 module SpaceInvaders
-  class ScoreTracker
-    def initialize window
-      @window = window
+  class ScoreTracker < Base
+
+    def initialize application
+      @application = application
       @score = 0
-      @score_headline = Gosu::Image.from_text @window, "Score:", Gosu.default_font_name, 30
+      @score_headline = Gosu::Image.from_text @application, "Score:", Gosu.default_font_name, 30
       set_score_number
     end
 
@@ -13,7 +14,7 @@ module SpaceInvaders
     end
 
     def set_score_number
-      @score_number = Gosu::Image.from_text @window, @score, Gosu.default_font_name, 30
+      @score_number = Gosu::Image.from_text @application, @score, Gosu.default_font_name, 30
     end
 
     def draw

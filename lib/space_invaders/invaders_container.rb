@@ -4,12 +4,12 @@ require_relative 'invader_b'
 require_relative 'invader_c'
 
 module SpaceInvaders
-  class InvadersContainer
+  class InvadersContainer < Base
 
     attr_reader :invader_collections
 
-    def initialize window
-      @window = window
+    def initialize application
+      @application = application
       create_invader_collections
 
       @change_time = Time.now
@@ -26,7 +26,7 @@ module SpaceInvaders
       check_collision(bullets)
 
       if any_invaders? and can_change?
-        if farmost_right_position >= @window.width - 80
+        if farmost_right_position >= application.width - 80
           @direction = :left
         elsif farmost_left_position <= 20
           @direction = :right
@@ -41,10 +41,10 @@ module SpaceInvaders
 
       if any_invaders? and can_fire?
         firing_invader = fireable_invaders.sample
-        bullet = Bullet.new @window, firing_invader, false, 5
+        bullet = Bullet.new application, firing_invader, false, 5
         @bullet_collection.bullets << bullet
         @can_fire = Time.now
-        @window.invader_bullet_sound.play
+        application.play_invader_fire!
       end
 
       @bullet_collection.update
@@ -99,9 +99,9 @@ module SpaceInvaders
     private
 
       def create_invader_collections
-        @invaders_a = InvaderCollection.new @window, 200, InvaderA
-        @invaders_b = InvaderCollection.new @window, 250, InvaderB
-        @invaders_c = InvaderCollection.new @window, 300, InvaderC
+        @invaders_a = InvaderCollection.new application, 200, InvaderA
+        @invaders_b = InvaderCollection.new application, 250, InvaderB
+        @invaders_c = InvaderCollection.new application, 300, InvaderC
 
         @invader_collections = [ @invaders_a, @invaders_b, @invaders_c ]
       end

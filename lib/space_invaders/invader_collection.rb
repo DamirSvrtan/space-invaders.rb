@@ -1,7 +1,8 @@
 require 'forwardable'
+require_relative 'base'
 
 module SpaceInvaders
-  class InvaderCollection
+  class InvaderCollection < Base
     extend Forwardable
 
     attr_accessor :direction
@@ -9,14 +10,14 @@ module SpaceInvaders
 
     X_POSITIONS = [40, 110, 180, 250, 320, 390, 460, 530]
 
-    def initialize window, y_position, invader_clazz
-      @window = window
+    def initialize application, y_position, invader_clazz
+      @application = application
       @y_position = y_position
       @direction = :right
       @invader_clazz = invader_clazz
       @invaders = []
       X_POSITIONS.each do |x_position|
-        invader = invader_clazz.new(window, x_position, y_position)
+        invader = invader_clazz.new(application, x_position, y_position)
         @invaders << invader
       end
     end
@@ -42,8 +43,8 @@ module SpaceInvaders
     def check_collision(bullets)
       @invaders.delete_if do |invader|
         if invader.collides_with? bullets
-          @window.score_tracker.increase_by(invader.points)
-          @window.invader_hit_sound.play
+          application.score_tracker.increase_by(invader.points)
+          application.play_invader_hit!
         end
       end
     end

@@ -6,6 +6,7 @@ require_relative 'score_tracker'
 require_relative 'global_timer'
 require_relative 'images'
 require_relative 'sounds'
+require_relative 'base'
 
 module SpaceInvaders
   class Application < Gosu::Window

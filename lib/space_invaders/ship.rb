@@ -6,25 +6,26 @@ module SpaceInvaders
     attr_accessor :drowned
     alias_method :drowned?, :drowned
 
-    def initialize window
+
+    def initialize application
       super
-      @image = @window.ship_image
-      @x_position = @window.width/2 - 40
-      @y_position = @window.height - 50
+      @image = @application.ship_image
+      @x_position = @application.width/2 - 40
+      @y_position = @application.height - 50
       @drowned = false
     end
 
     def update(bullets)
       if collides_with? bullets
-        @window.ship_hit_sound.play
+        application.play_ship_hit!
         self.drowned = true
       else
-        if @window.button_down? Gosu::KbLeft
+        if @application.button_down? Gosu::KbLeft
           unless @x_position <= 20
             @x_position += -5
           end
-        elsif @window.button_down? Gosu::KbRight
-          unless @x_position >= @window.width - 90
+        elsif @application.button_down? Gosu::KbRight
+          unless @x_position >= @application.width - 90
             @x_position += 5
           end
         end
@@ -37,9 +38,9 @@ module SpaceInvaders
     end
 
     def fire!
-      bullet = Bullet.new @window, self, true
+      bullet = Bullet.new @application, self, true
       @bullet_collection.bullets << bullet
-      @window.ship_bullet_sound.play
+      application.play_ship_fire!
     end
 
   end

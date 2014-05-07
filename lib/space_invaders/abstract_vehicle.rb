@@ -2,11 +2,11 @@ require_relative 'bullet'
 require_relative 'bullet_collection'
 
 module SpaceInvaders
-  class AbstractVehicle
-    attr_accessor :window, :x_position, :y_position
+  class AbstractVehicle < Base
+    attr_accessor :x_position, :y_position
 
-    def initialize window
-      @window = window
+    def initialize application
+      @application = application
       @bullet_collection = BulletCollection.new
     end
 
