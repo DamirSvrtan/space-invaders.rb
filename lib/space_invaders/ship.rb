@@ -3,7 +3,8 @@ require_relative 'abstract_vehicle'
 module SpaceInvaders
   class Ship < AbstractVehicle
 
-    attr_accessor :drowned
+    attr_accessor :drowned, :lives
+
     alias_method :drowned?, :drowned
 
 
@@ -12,6 +13,7 @@ module SpaceInvaders
       @image = @application.ship_image
       @x_position = @application.width/2 - 40
       @y_position = @application.height - 50
+      @lives = 3
       @drowned = false
     end
 
@@ -19,6 +21,7 @@ module SpaceInvaders
       if collides_with? bullets
         application.play_ship_hit!
         self.drowned = true
+        app.game_status.finished!
       else
         if @application.button_down? Gosu::KbLeft
           unless @x_position <= 20

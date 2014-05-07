@@ -1,6 +1,8 @@
 module SpaceInvaders
   class ScoreTracker < Base
 
+    attr_reader :score
+
     def initialize application
       @application = application
       @score = 0
