@@ -4,9 +4,12 @@ require_relative 'invaders_container'
 require_relative 'ship'
 require_relative 'score_tracker'
 require_relative 'global_timer'
+require_relative 'invader_images'
 
 module SpaceInvaders
   class Application < Gosu::Window
+    include InvaderImages
+
     attr_reader :score_tracker
 
     def initialize width=800, height=600, fullscreen=false
@@ -45,7 +48,7 @@ module SpaceInvaders
         @invaders_container.draw
         @ship.draw
       end
-      GlobalTimer.draw(self)
+      # GlobalTimer.draw(self)
       @score_tracker.draw
     end
 
@@ -56,5 +59,6 @@ module SpaceInvaders
     def game_over
       @game_over ||= Gosu::Image.from_text self, "Game Over", Gosu.default_font_name, 100
     end
+
   end
 end

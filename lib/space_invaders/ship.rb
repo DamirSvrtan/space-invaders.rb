@@ -19,11 +19,11 @@ module SpaceInvaders
         self.drowned = true
       else
         if @window.button_down? Gosu::KbLeft
-          unless @x_position.between?(0, 20)
+          unless @x_position <= 20
             @x_position += -5
           end
         elsif @window.button_down? Gosu::KbRight
-          unless @x_position.between?(@window.width - 90, @window.width - 70)
+          unless @x_position >= @window.width - 90
             @x_position += 5
           end
         end

@@ -1,5 +1,7 @@
 require_relative 'invader_collection'
-require_relative 'invaderz'
+require_relative 'invader_a'
+require_relative 'invader_b'
+require_relative 'invader_c'
 
 module SpaceInvaders
   class InvadersContainer
