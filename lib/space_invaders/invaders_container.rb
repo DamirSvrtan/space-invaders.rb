@@ -44,6 +44,7 @@ module SpaceInvaders
         bullet = Bullet.new @window, firing_invader, false, 5
         @bullet_collection.bullets << bullet
         @can_fire = Time.now
+        @window.invader_bullet_sound.play
       end
 
       @bullet_collection.update

@@ -43,6 +43,7 @@ module SpaceInvaders
       @invaders.delete_if do |invader|
         if invader.collides_with? bullets
           @window.score_tracker.increase_by(invader.points)
+          @window.invader_hit_sound.play
         end
       end
     end

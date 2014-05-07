@@ -8,14 +8,15 @@ module SpaceInvaders
 
     def initialize window
       super
-      @image = Gosu::Image.new @window, "images/Ship.png"
+      @image = @window.ship_image
       @x_position = @window.width/2 - 40
       @y_position = @window.height - 50
       @drowned = false
     end
 
     def update(bullets)
-      if collides_with? bullets 
+      if collides_with? bullets
+        @window.ship_hit_sound.play
         self.drowned = true
       else
         if @window.button_down? Gosu::KbLeft
@@ -38,6 +39,7 @@ module SpaceInvaders
     def fire!
       bullet = Bullet.new @window, self, true
       @bullet_collection.bullets << bullet
+      @window.ship_bullet_sound.play
     end
 
   end

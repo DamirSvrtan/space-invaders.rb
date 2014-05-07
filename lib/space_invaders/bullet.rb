@@ -7,7 +7,7 @@ module SpaceInvaders
       @window = window
       @fireing_vehicle = fireing_vehicle
 
-      @image = Gosu::Image.new @window, "images/Bullet.png"
+      @image = @window.bullet_image
 
       @x_position = @fireing_vehicle.x_middle - @image.width/2
 

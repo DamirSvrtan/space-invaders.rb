@@ -4,11 +4,13 @@ require_relative 'invaders_container'
 require_relative 'ship'
 require_relative 'score_tracker'
 require_relative 'global_timer'
-require_relative 'invader_images'
+require_relative 'images'
+require_relative 'sounds'
 
 module SpaceInvaders
   class Application < Gosu::Window
-    include InvaderImages
+    include Images
+    include Sounds
 
     attr_reader :score_tracker
 
