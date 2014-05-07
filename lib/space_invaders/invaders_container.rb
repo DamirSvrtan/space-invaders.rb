@@ -51,7 +51,7 @@ module SpaceInvaders
     end
 
     def can_fire?
-      Time.now > @can_fire + 1.25
+      Time.now > @can_fire + 2
     end
 
     def can_change?

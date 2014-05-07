@@ -9,7 +9,7 @@ module SpaceInvaders
     end
 
     def points
-      30
+      40
     end
   end
 end

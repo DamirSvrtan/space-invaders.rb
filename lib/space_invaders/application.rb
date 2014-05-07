@@ -3,6 +3,7 @@ require "gosu"
 require_relative 'invaders_container'
 require_relative 'ship'
 require_relative 'score_tracker'
+require_relative 'lives_tracker'
 require_relative 'global_timer'
 require_relative 'images'
 require_relative 'sounds'
@@ -17,12 +18,15 @@ module SpaceInvaders
     include Images
     include Sounds
 
-    attr_reader :game_status, :button_controller, :score_tracker, 
+    attr_reader :game_status, :button_controller, :score_tracker, :lives_tracker,
                 :invaders_container, :ship, :welcome_screen, :game_over_screen
 
     def initialize width=800, height=600, fullscreen=false
       super
       self.caption = "Sprite Demonstration"
+
+      @invaders_container = InvadersContainer.new self
+      @ship = Ship.new self
 
       @game_status = GameStatus.new self
       @welcome_screen = WelcomeScreen.new self
@@ -30,10 +34,7 @@ module SpaceInvaders
 
       @button_controller = ButtonController.new self
       @score_tracker = ScoreTracker.new self
-
-      @invaders_container = InvadersContainer.new self
-      @ship = Ship.new self
-
+      @lives_tracker = LivesTracker.new self
       # GlobalTimer.start!
     end
 
@@ -65,6 +66,7 @@ module SpaceInvaders
           ship.draw
         end
         score_tracker.draw
+        lives_tracker.draw
       elsif game_status.finished?
         game_over_screen.draw
       else
