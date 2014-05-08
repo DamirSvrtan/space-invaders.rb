@@ -4,12 +4,15 @@ module SpaceInvaders
   class ButtonController < Base
 
     def button_down id
-      app.close if id == Gosu::KbEscape
-
-      if app.game_status.hasnt_started?
-        app.game_status.start! if id == Gosu::KbSpace
-      elsif app.game_status.being_played?
-        app.ship.fire! if id == Gosu::KbSpace
+      case id
+      when Gosu::KbEscape
+        app.close
+      when Gosu::KbSpace
+        if app.game_status.hasnt_started?
+          app.game_status.start!
+        elsif app.game_status.being_played?
+          app.ship.fire!
+        end
       end
 
     end
