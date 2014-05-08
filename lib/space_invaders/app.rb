@@ -14,7 +14,7 @@ require_relative 'welcome_screen'
 require_relative 'game_over_screen'
 
 module SpaceInvaders
-  class Application < Gosu::Window
+  class App < Gosu::Window
     include Images
     include Sounds
 

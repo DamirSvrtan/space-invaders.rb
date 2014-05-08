@@ -8,8 +8,8 @@ module SpaceInvaders
 
     attr_reader :invader_collections
 
-    def initialize application
-      @application = application
+    def initialize app
+      @app = app
       create_invader_collections
 
       @change_time = Time.now
@@ -28,7 +28,7 @@ module SpaceInvaders
       check_collision
 
       if any_invaders? and can_change?
-        if farmost_right_position >= application.width - 80
+        if farmost_right_position >= app.width - 80
           @direction = :left
         elsif farmost_left_position <= 20
           @direction = :right
@@ -40,10 +40,10 @@ module SpaceInvaders
 
       if any_invaders? and can_fire?
         firing_invader = fireable_invaders.sample
-        bullet = Bullet.new application, firing_invader, false, 5
+        bullet = Bullet.new app, firing_invader, false, 5
         @bullet_collection.bullets << bullet
         @can_fire = Time.now
-        application.play_invader_fire!
+        app.play_invader_fire!
       end
 
       @bullet_collection.update
@@ -108,9 +108,9 @@ module SpaceInvaders
       end
 
       def create_invader_collections
-        @invaders_a = InvaderCollection.new application, 100, InvaderA
-        @invaders_b = InvaderCollection.new application, 150, InvaderB
-        @invaders_c = InvaderCollection.new application, 200, InvaderC
+        @invaders_a = InvaderCollection.new app, 100, InvaderA
+        @invaders_b = InvaderCollection.new app, 150, InvaderB
+        @invaders_c = InvaderCollection.new app, 200, InvaderC
 
         @invader_collections = [ @invaders_a, @invaders_b, @invaders_c ]
       end

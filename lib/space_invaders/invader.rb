@@ -4,8 +4,8 @@ module SpaceInvaders
   class Invader < AbstractVehicle
     attr_reader :original_x_position
 
-    def initialize application, x_position, y_position
-      super(application)
+    def initialize app, x_position, y_position
+      super(app)
       
       @was_first_image = true
       @x_position = x_position

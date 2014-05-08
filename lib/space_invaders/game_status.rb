@@ -7,7 +7,7 @@ module SpaceInvaders
     alias_method  :finished?, :finished
     alias_method  :drowned_ship?, :drowned_ship
 
-    def initialze application
+    def initialze app
       super
       @started = false
       @finished = false

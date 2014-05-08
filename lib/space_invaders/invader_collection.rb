@@ -10,14 +10,14 @@ module SpaceInvaders
 
     X_POSITIONS = [40, 110, 180, 250, 320, 390, 460, 530]
 
-    def initialize application, y_position, invader_clazz
-      @application = application
+    def initialize app, y_position, invader_clazz
+      @app = app
       @y_position = y_position
       @direction = :right
       @invader_clazz = invader_clazz
       @invaders = []
       X_POSITIONS.each do |x_position|
-        invader = invader_clazz.new(application, x_position, y_position)
+        invader = invader_clazz.new(app, x_position, y_position)
         @invaders << invader
       end
     end
@@ -43,8 +43,8 @@ module SpaceInvaders
     def check_collision(bullets)
       @invaders.delete_if do |invader|
         if invader.collides_with? bullets
-          application.score_tracker.increase_by(invader.points)
-          application.play_invader_hit!
+          app.score_tracker.increase_by(invader.points)
+          app.play_invader_hit!
         end
       end
     end

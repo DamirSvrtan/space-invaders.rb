@@ -3,10 +3,10 @@ module SpaceInvaders
 
     attr_reader :score
 
-    def initialize application
-      @application = application
+    def initialize app
+      @app = app
       @score = 0
-      @score_headline = Gosu::Image.from_text @application, "Score:", app.default_font, 30
+      @score_headline = Gosu::Image.from_text @app, "Score:", app.default_font, 30
       set_score_number
     end
 
@@ -16,7 +16,7 @@ module SpaceInvaders
     end
 
     def set_score_number
-      @score_number = Gosu::Image.from_text @application, @score, app.default_font, 30
+      @score_number = Gosu::Image.from_text @app, @score, app.default_font, 30
     end
 
     def draw

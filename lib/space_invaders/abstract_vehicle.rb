@@ -5,8 +5,8 @@ module SpaceInvaders
   class AbstractVehicle < Base
     attr_accessor :x_position, :y_position
 
-    def initialize application
-      @application = application
+    def initialize app
+      @app = app
       @bullet_collection = BulletCollection.new
     end
 

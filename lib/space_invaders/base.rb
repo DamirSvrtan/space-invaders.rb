@@ -1,11 +1,9 @@
 module SpaceInvaders
   class Base
-    attr_reader :application
+    attr_reader :app
 
-    alias_method :app, :application
-
-    def initialize application
-      @application = application
+    def initialize app
+      @app = app
     end
 
     def game_status

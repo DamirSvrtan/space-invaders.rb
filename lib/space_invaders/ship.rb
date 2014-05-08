@@ -8,7 +8,7 @@ module SpaceInvaders
 
     alias_method :drowned?, :drowned
 
-    def initialize application
+    def initialize app
       super
       @image = app.ship_image
       @x_position = app.width/2 - 40
@@ -40,9 +40,9 @@ module SpaceInvaders
     end
 
     def fire!
-      bullet = Bullet.new @application, self, true
+      bullet = Bullet.new @app, self, true
       @bullet_collection.bullets << bullet
-      application.play_ship_fire!
+      app.play_ship_fire!
     end
 
     private
@@ -65,7 +65,7 @@ module SpaceInvaders
       end
 
       def handle_collision
-        application.play_ship_hit!
+        app.play_ship_hit!
         decrease_lives!
         if no_more_lives?
           self.drowned = true

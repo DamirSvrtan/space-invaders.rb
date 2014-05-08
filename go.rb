@@ -1,5 +1,5 @@
 require 'pry'
 require './lib/space_invaders'
-require './lib/space_invaders/application.rb'
+require './lib/space_invaders/app.rb'
 
-SpaceInvaders::Application.new.show
+SpaceInvaders::App.new.show

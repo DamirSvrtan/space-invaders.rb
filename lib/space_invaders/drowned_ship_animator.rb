@@ -5,8 +5,8 @@ module SpaceInvaders
 
     attr_accessor :ship
 
-    def initialize(application, ship)
-      super(application)
+    def initialize(app, ship)
+      super(app)
       @ship = ship
     end
 
@@ -40,7 +40,7 @@ module SpaceInvaders
       end
 
       def left_image_time?
-        (passed_time * 10 % 10).round.even?
+        (passed_time * 10 % 10).rounds.even?
       end
   end
 end
