@@ -23,6 +23,8 @@ module SpaceInvaders
     end
 
     def update(bullets)
+      return if game_status.drowned_ship?
+
       check_collision(bullets)
 
       if any_invaders? and can_change?
@@ -32,10 +34,7 @@ module SpaceInvaders
           @direction = :right
         end
 
-        @invader_collections.each do |invader_collection| 
-          invader_collection.update @direction
-        end
-
+        update_direction(@direction)
         @change_time = Time.now
       end
 
@@ -48,6 +47,12 @@ module SpaceInvaders
       end
 
       @bullet_collection.update
+    end
+
+    def update_direction direction
+      invader_collections.each do |invader_collection|
+        invader_collection.update direction
+      end
     end
 
     def can_fire?

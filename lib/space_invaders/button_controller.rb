@@ -6,15 +6,25 @@ module SpaceInvaders
     def button_down id
       case id
       when Gosu::KbEscape
-        app.close
+        escape
       when Gosu::KbSpace
-        if app.game_status.hasnt_started?
-          app.game_status.start!
+        space
+      end
+    end
+
+    private
+
+      def escape
+        app.close
+      end
+
+      def space
+        if game_status.hasnt_started?
+          game_status.start!
         elsif app.game_status.being_played?
           app.ship.fire!
         end
       end
 
-    end
   end
 end

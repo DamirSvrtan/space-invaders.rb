@@ -1,38 +1,33 @@
 require_relative 'abstract_vehicle'
+require_relative 'drowned_ship_animator'
 
 module SpaceInvaders
   class Ship < AbstractVehicle
 
-    attr_accessor :drowned, :lives
+    attr_accessor :drowned, :lives, :image, :drowned_ship_animator
 
     alias_method :drowned?, :drowned
 
-
     def initialize application
       super
-      @image = @application.ship_image
-      @x_position = @application.width/2 - 40
-      @y_position = @application.height - 50
+      @image = app.ship_image
+      @x_position = app.width/2 - 40
+      @y_position = app.height - 50
       @lives = 3
       @drowned = false
+      @drowned_ship_animator = DrownedShipAnimator.new app, self
     end
 
     def update(bullets)
-      if collides_with? bullets
-        application.play_ship_hit!
-        self.drowned = true
-        app.game_status.finished!
+      if game_status.drowned_ship?
+        drowned_ship_animator.update
       else
-        if @application.button_down? Gosu::KbLeft
-          unless @x_position <= 20
-            @x_position += -5
-          end
-        elsif @application.button_down? Gosu::KbRight
-          unless @x_position >= @application.width - 90
-            @x_position += 5
-          end
+        if collides_with? bullets
+          handle_collision
+        else
+          move_ship
+          @bullet_collection.update
         end
-        @bullet_collection.update
       end
     end
 
@@ -40,11 +35,49 @@ module SpaceInvaders
       !drowned
     end
 
+    def no_more_lives?
+      lives == 0
+    end
+
     def fire!
       bullet = Bullet.new @application, self, true
       @bullet_collection.bullets << bullet
       application.play_ship_fire!
     end
+
+    private
+
+      def decrease_lives!
+        @lives -= 1
+      end
+
+      def animate_drowned_ship!
+        if @image == app.ship_crushed_left_image
+          @image = app.ship_crushed_right_image
+        else
+          @image = app.ship_crushed_left_image
+        end
+      end
+
+      def handle_collision
+        application.play_ship_hit!
+        decrease_lives!
+        if no_more_lives?
+          self.drowned = true
+          game_status.finished!
+        else
+          drowned_ship_animator.start!
+          game_status.drowned_ship!
+        end
+      end
+
+      def move_ship
+        if app.button_down? Gosu::KbLeft and x_position > 20
+          @x_position += -5
+        elsif app.button_down? Gosu::KbRight and x_position < app.width - 90
+          @x_position += 5
+        end
+      end
 
   end
 end
