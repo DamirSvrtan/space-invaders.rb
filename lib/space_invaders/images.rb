@@ -25,7 +25,15 @@ module SpaceInvaders
     end
 
     def ship_image
-      @ship_image ||= Gosu::Image.new self, "assets/images/Ship.png"
+      @ship_image ||= Gosu::Image.new self, "assets/images/Ship3.png"
+    end
+
+    def ship_crushed_left_image
+      @ship_crushed_left_image ||= Gosu::Image.new self, "assets/images/ShipLeft.png"
+    end
+
+    def ship_crushed_right_image
+      @ship_crushed_right_image ||= Gosu::Image.new self, "assets/images/ShipRight.png"
     end
 
     def bullet_image
