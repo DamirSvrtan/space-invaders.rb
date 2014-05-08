@@ -43,20 +43,13 @@ module SpaceInvaders
     end
 
     def update
-      if game_status.hasnt_started?
-
-      elsif game_status.drowned_ship?
+      if game_status.drowned_ship?
         ship.update
       elsif game_status.being_played?
         if invaders_container.any_invaders? and ship.alive?
           invaders_container.update
           ship.update
         end
-
-      elsif game_status.finished?
-
-      else
-        binding.pry
       end
     end
 
@@ -73,14 +66,6 @@ module SpaceInvaders
       else
         binding.pry
       end
-    end
-
-    def congratulations
-      @congratulations ||= Gosu::Image.from_text self, "Congratulations!", Gosu.default_font_name, 100
-    end
-
-    def game_over
-      @game_over ||= Gosu::Image.from_text self, "Game Over", Gosu.default_font_name, 100
     end
 
     def default_font
