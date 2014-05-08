@@ -46,39 +46,32 @@ module SpaceInvaders
       if game_status.hasnt_started?
 
       elsif game_status.drowned_ship?
-        ship.update([])
+        ship.update
       elsif game_status.being_played?
         if invaders_container.any_invaders? and ship.alive?
-          invaders_container.update(@ship.bullets)
-          ship.update(@invaders_container.bullets)
+          invaders_container.update
+          ship.update
         end
 
       elsif game_status.finished?
 
       else
         binding.pry
-        raise "NESTO JE KRIVO"
       end
     end
 
     def draw
       if game_status.hasnt_started?
         welcome_screen.draw
-      elsif game_status.drowned_ship?
-        invaders_container.draw
-        ship.draw
-      elsif game_status.being_played?
+      elsif game_status.drowned_ship? or game_status.being_played?
         invaders_container.draw
         ship.draw
         score_tracker.draw
         lives_tracker.draw
-
       elsif game_status.finished?
         game_over_screen.draw
-
       else
         binding.pry
-        raise "NESTO JE KRIVO"
       end
     end
 

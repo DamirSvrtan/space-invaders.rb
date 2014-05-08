@@ -18,11 +18,11 @@ module SpaceInvaders
       @drowned_ship_animator = DrownedShipAnimator.new app, self
     end
 
-    def update(bullets)
+    def update
       if game_status.drowned_ship?
         drowned_ship_animator.update
       else
-        if collides_with? bullets
+        if collides_with? rival_bullets
           handle_collision
         else
           move_ship
@@ -47,8 +47,13 @@ module SpaceInvaders
 
     private
 
+      def rival_bullets
+        app.invaders_container.bullets
+      end
+
       def decrease_lives!
         @lives -= 1
+        app.lives_tracker.decrease_lives!
       end
 
       def animate_drowned_ship!

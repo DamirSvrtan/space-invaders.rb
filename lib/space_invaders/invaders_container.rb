@@ -22,10 +22,10 @@ module SpaceInvaders
       @bullet_collection
     end
 
-    def update(bullets)
+    def update
       return if game_status.drowned_ship?
 
-      check_collision(bullets)
+      check_collision
 
       if any_invaders? and can_change?
         if farmost_right_position >= application.width - 80
@@ -63,9 +63,9 @@ module SpaceInvaders
       Time.now > @change_time + 0.25
     end
 
-    def check_collision(bullets)
+    def check_collision
       @invader_collections.each do |invader_collection|
-        invader_collection.check_collision(bullets)
+        invader_collection.check_collision(rival_bullets)
       end
       @invader_collections.delete_if {|invader_collection| invader_collection.empty?}
     end
@@ -103,10 +103,14 @@ module SpaceInvaders
 
     private
 
+      def rival_bullets
+        app.ship.bullets
+      end
+
       def create_invader_collections
-        @invaders_a = InvaderCollection.new application, 200, InvaderA
-        @invaders_b = InvaderCollection.new application, 250, InvaderB
-        @invaders_c = InvaderCollection.new application, 300, InvaderC
+        @invaders_a = InvaderCollection.new application, 100, InvaderA
+        @invaders_b = InvaderCollection.new application, 150, InvaderB
+        @invaders_c = InvaderCollection.new application, 200, InvaderC
 
         @invader_collections = [ @invaders_a, @invaders_b, @invaders_c ]
       end

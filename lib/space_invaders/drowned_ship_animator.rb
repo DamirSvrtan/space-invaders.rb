@@ -1,7 +1,7 @@
 module SpaceInvaders
   class DrownedShipAnimator < Base
 
-    ANIMATION_LENGTH = 3
+    ANIMATION_LENGTH_IN_SECONDS = 2
 
     attr_accessor :ship
 
@@ -15,7 +15,7 @@ module SpaceInvaders
     end
 
     def animation_time_is_over?
-      passed_time > ANIMATION_LENGTH
+      passed_time > ANIMATION_LENGTH_IN_SECONDS
     end
 
     def reset!
@@ -23,13 +23,14 @@ module SpaceInvaders
     end
 
     def update
-      ship.image = if left_image_time?
+      ship.image = if animation_time_is_over?
+        app.game_status.continue!
+        app.ship_image
+      elsif left_image_time?
         app.ship_crushed_left_image
       else
         app.ship_crushed_right_image
       end
-
-      stop_animation if animation_time_is_over?
     end
 
     private
@@ -38,16 +39,8 @@ module SpaceInvaders
         Time.now - @start_time
       end
 
-      def stop_animation
-        if ship.no_more_lives?
-          app.game_status.finished!
-        else
-          app.game_status.continue!
-        end
-      end
-
       def left_image_time?
-        (passed_time * 10 % 10).round(0).even?
+        (passed_time * 10 % 10).round.even?
       end
   end
 end

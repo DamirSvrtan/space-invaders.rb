@@ -10,8 +10,8 @@ module SpaceInvaders
       set_lives_number
     end
 
-    def decrease_by number
-      @lives -= number
+    def decrease_lives!
+      @lives -= 1
       set_lives_number
     end
 
