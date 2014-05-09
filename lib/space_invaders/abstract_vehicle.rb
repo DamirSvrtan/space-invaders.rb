@@ -27,8 +27,12 @@ module SpaceInvaders
     end
 
     def draw
-      @image.draw @x_position, @y_position, 1
-      @bullet_collection.draw
+      begin
+        @image.draw @x_position, @y_position, 1
+        @bullet_collection.draw
+      rescue
+        binding.pry
+      end
     end
 
     def collides_with?(bullets)

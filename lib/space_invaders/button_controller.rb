@@ -21,8 +21,11 @@ module SpaceInvaders
       def space
         if game_status.hasnt_started?
           game_status.start!
-        elsif app.game_status.being_played?
+        elsif game_status.being_played?
           app.ship.fire!
+        elsif game_status.finished?
+          app.initialize_dynamics
+          game_status.start!
         end
       end
 

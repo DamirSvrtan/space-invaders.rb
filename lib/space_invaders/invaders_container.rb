@@ -100,9 +100,9 @@ module SpaceInvaders
 
     def fireable_invaders
       InvaderCollection::X_POSITIONS.map do |x_position|
-        @invaders_c.find { |invader| invader.original_x_position == x_position } ||
-        @invaders_b.find { |invader| invader.original_x_position == x_position } ||
-        @invaders_a.find { |invader| invader.original_x_position == x_position }
+        invader_collections.reverse.map do |invader_collection|
+          invader_collection.find {|invader| invader.original_x_position == x_position }
+        end.compact.first
       end.compact
     end
 
@@ -113,11 +113,13 @@ module SpaceInvaders
       end
 
       def create_invader_collections
-        @invaders_a = InvaderCollection.new app, 100, InvaderA
-        @invaders_b = InvaderCollection.new app, 150, InvaderB
-        @invaders_c = InvaderCollection.new app, 200, InvaderC
-
-        @invader_collections = [ @invaders_a, @invaders_b, @invaders_c ]
+        @invader_collections = [
+          InvaderCollection.new(app, 100, InvaderA),
+          InvaderCollection.new(app, 150, InvaderB),
+          InvaderCollection.new(app, 200, InvaderB),
+          InvaderCollection.new(app, 250, InvaderC),
+          InvaderCollection.new(app, 300, InvaderC),
+        ]
       end
 
       def farmost_right_position

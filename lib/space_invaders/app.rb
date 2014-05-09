@@ -23,17 +23,8 @@ module SpaceInvaders
     def initialize width=800, height=600, fullscreen=false
       super
       self.caption = "Sprite Demonstration"
-
-      @invaders_container = InvadersContainer.new self
-      @ship = Ship.new self
-
-      @game_status = GameStatus.new self
-      @welcome_screen = WelcomeScreen.new self
-      @game_over_screen = GameOverScreen.new self
-
-      @button_controller = ButtonController.new self
-      @score_tracker = ScoreTracker.new self
-      @lives_tracker = LivesTracker.new self
+      initialize_statics
+      initialize_dynamics
     end
 
     def button_down id
@@ -68,6 +59,20 @@ module SpaceInvaders
 
     def default_font
       "assets/fonts/unifont.ttf"
+    end
+
+    def initialize_dynamics
+      @invaders_container = InvadersContainer.new self
+      @ship = Ship.new self
+      @score_tracker = ScoreTracker.new self
+      @lives_tracker = LivesTracker.new self
+    end
+
+    def initialize_statics
+      @game_status = GameStatus.new self
+      @welcome_screen = WelcomeScreen.new self
+      @game_over_screen = GameOverScreen.new self
+      @button_controller = ButtonController.new self
     end
 
   end

@@ -11,6 +11,7 @@ module SpaceInvaders
       @x_position = x_position
       @original_x_position = x_position
       @y_position = y_position
+      @image = @first_image
     end
 
     def update(direction, y_offset=0)

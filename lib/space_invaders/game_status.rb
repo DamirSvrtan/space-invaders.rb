@@ -24,6 +24,7 @@ module SpaceInvaders
 
     def start!
       @started = true
+      @finished = false
     end
 
     def finished!
