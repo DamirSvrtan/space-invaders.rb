@@ -9,7 +9,7 @@ module SpaceInvaders
     attr_reader :invader_collections
 
     def initialize app
-      @app = app
+      super
       create_invader_collections
 
       @change_time = Time.now
@@ -51,7 +51,7 @@ module SpaceInvaders
         app.play_invader_fire!
       end
 
-      @bullet_collection.update
+      bullets.update
     end
 
     def update_direction direction, y_offset
@@ -69,22 +69,22 @@ module SpaceInvaders
     end
 
     def check_collision
-      @invader_collections.each do |invader_collection|
+      invader_collections.each do |invader_collection|
         invader_collection.check_collision(rival_bullets)
       end
-      @invader_collections.delete_if {|invader_collection| invader_collection.empty?}
+      invader_collections.delete_if {|invader_collection| invader_collection.empty?}
     end
 
     def draw
-      @invader_collections.each do |invader_collection|
+      invader_collections.each do |invader_collection|
         invader_collection.draw
       end
-      @bullet_collection.draw
+      bullets.draw
     end
 
     def count
       count = 0
-      @invader_collections.each do |invader_collection|
+      invader_collections.each do |invader_collection|
         count += invader_collection.count
       end
       count
@@ -123,14 +123,13 @@ module SpaceInvaders
       end
 
       def farmost_right_position
-        fireable_invaders
-        @invader_collections.max_by do |invader_collection|
+        invader_collections.max_by do |invader_collection|
           invader_collection.farmost_right_position
         end.farmost_right_position
       end
 
       def farmost_left_position
-        @invader_collections.min_by do |invader_collection|
+        invader_collections.min_by do |invader_collection|
           invader_collection.farmost_left_position
         end.farmost_left_position
       end

@@ -4,9 +4,7 @@ require_relative 'drowned_ship_animator'
 module SpaceInvaders
   class Ship < AbstractVehicle
 
-    attr_accessor :drowned, :lives, :image, :drowned_ship_animator
-
-    alias_method :drowned?, :drowned
+    attr_accessor :lives, :image, :drowned_ship_animator
 
     def initialize app
       super
@@ -14,7 +12,6 @@ module SpaceInvaders
       @x_position = app.width/2 - 40
       @y_position = app.height - 50
       @lives = 3
-      @drowned = false
       @drowned_ship_animator = DrownedShipAnimator.new app, self
     end
 
@@ -29,10 +26,6 @@ module SpaceInvaders
           @bullet_collection.update
         end
       end
-    end
-
-    def alive?
-      !drowned
     end
 
     def no_more_lives?
@@ -68,7 +61,6 @@ module SpaceInvaders
         app.play_ship_hit!
         decrease_lives!
         if no_more_lives?
-          self.drowned = true
           game_status.finished!
         else
           drowned_ship_animator.start!

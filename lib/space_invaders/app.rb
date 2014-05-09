@@ -35,7 +35,7 @@ module SpaceInvaders
       if game_status.drowned_ship?
         ship.update
       elsif game_status.being_played?
-        if invaders_container.any_invaders? and ship.alive?
+        if invaders_container.any_invaders?
           invaders_container.update
           ship.update
         end
