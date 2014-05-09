@@ -40,7 +40,7 @@ module SpaceInvaders
       end
 
       def left_image_time?
-        (passed_time * 10 % 10).rounds.even?
+        (passed_time * 10 % 10).round.even?
       end
   end
 end
