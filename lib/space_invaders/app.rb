@@ -4,7 +4,6 @@ require_relative 'invaders_container'
 require_relative 'ship'
 require_relative 'score_tracker'
 require_relative 'lives_tracker'
-require_relative 'global_timer'
 require_relative 'images'
 require_relative 'sounds'
 require_relative 'base'
@@ -35,7 +34,6 @@ module SpaceInvaders
       @button_controller = ButtonController.new self
       @score_tracker = ScoreTracker.new self
       @lives_tracker = LivesTracker.new self
-      # GlobalTimer.start!
     end
 
     def button_down id
