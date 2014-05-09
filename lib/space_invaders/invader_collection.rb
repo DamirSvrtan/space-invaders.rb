@@ -24,8 +24,8 @@ module SpaceInvaders
 
     def_delegators :@invaders, :each, :count, :select, :find, :empty?
 
-    def update(direction)
-      @invaders.each {|invader| invader.update direction }
+    def update direction, y_offset
+      @invaders.each {|invader| invader.update direction, y_offset }
     end
 
     def draw

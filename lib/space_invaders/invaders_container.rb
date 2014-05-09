@@ -16,6 +16,7 @@ module SpaceInvaders
       @can_fire = Time.now
       @direction = :right
       @bullet_collection = BulletCollection.new
+      @y_offset = 0
     end
 
     def bullets
@@ -30,11 +31,15 @@ module SpaceInvaders
       if any_invaders? and can_change?
         if farmost_right_position >= app.width - 80
           @direction = :left
+          @y_offset = 10
         elsif farmost_left_position <= 20
           @direction = :right
+          @y_offset = 10
+        else
+          @y_offset = 0
         end
 
-        update_direction(@direction)
+        update_direction(@direction, @y_offset)
         @change_time = Time.now
       end
 
@@ -49,9 +54,9 @@ module SpaceInvaders
       @bullet_collection.update
     end
 
-    def update_direction direction
+    def update_direction direction, y_offset
       invader_collections.each do |invader_collection|
-        invader_collection.update direction
+        invader_collection.update direction, y_offset
       end
     end
 
