@@ -17,7 +17,7 @@ module SpaceInvaders
       @invader_clazz = invader_clazz
       @invaders = []
       X_POSITIONS.each do |x_position|
-        @invader << invader_clazz.new(app, x_position, y_position)
+        @invaders << invader_clazz.new(app, x_position, y_position)
       end
     end
 

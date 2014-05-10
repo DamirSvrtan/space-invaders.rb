@@ -26,7 +26,6 @@ module SpaceInvaders
       self.caption = "Sprite Demonstration"
       initialize_statics
       initialize_dynamics
-      binding.pry
     end
 
     def button_down id
