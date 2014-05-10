@@ -1,4 +1,4 @@
-require_relative 'invader_collection'
+require_relative 'invader_row'
 require_relative 'invader_a'
 require_relative 'invader_b'
 require_relative 'invader_c'
@@ -6,11 +6,11 @@ require_relative 'invader_c'
 module SpaceInvaders
   class InvadersContainer < Base
 
-    attr_reader :invader_collections
+    attr_reader :invader_rows
 
     def initialize app
       super
-      create_invader_collections
+      create_invader_rows
       @change_time = Time.now
       @can_fire = Time.now
       @direction = :right
@@ -26,7 +26,7 @@ module SpaceInvaders
     end
 
     def draw
-      invader_collections.each {|invader_collection| invader_collection.draw }
+      invader_rows.each {|invader_row| invader_row.draw }
       bullets.draw
     end
 
@@ -49,7 +49,7 @@ module SpaceInvaders
     end
 
     def count
-      invader_collections.map {|invader_collection| invader_collection.count}.inject(:+) || 0
+      invader_rows.map {|invader_row| invader_row.count}.inject(:+) || 0
     end
 
     def any_invaders?
@@ -61,8 +61,8 @@ module SpaceInvaders
     end
 private
     def update_direction direction, y_offset
-      invader_collections.each do |invader_collection|
-        invader_collection.update direction, y_offset
+      invader_rows.each do |invader_row|
+        invader_row.update direction, y_offset
       end
     end
 
@@ -75,14 +75,14 @@ private
     end
 
     def check_collision
-      invader_collections.each { |invader_collection| invader_collection.check_collision(rival_bullets) }
-      invader_collections.delete_if {|invader_collection| invader_collection.empty?}
+      invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
+      invader_rows.delete_if {|invader_row| invader_row.empty?}
     end
 
     def fireable_invaders
-      InvaderCollection::X_POSITIONS.map do |x_position|
-        invader_collections.reverse.map do |invader_collection|
-          invader_collection.find {|invader| invader.original_x_position == x_position }
+      InvaderRow::X_POSITIONS.map do |x_position|
+        invader_rows.reverse.map do |invader_row|
+          invader_row.find {|invader| invader.original_x_position == x_position }
         end.compact.first
       end.compact
     end
@@ -101,25 +101,25 @@ private
         app.ship.bullets
       end
 
-      def create_invader_collections
-        @invader_collections = [
-          InvaderCollection.new(app, 100, InvaderA),
-          InvaderCollection.new(app, 150, InvaderB),
-          InvaderCollection.new(app, 200, InvaderB),
-          InvaderCollection.new(app, 250, InvaderC),
-          InvaderCollection.new(app, 300, InvaderC),
+      def create_invader_rows
+        @invader_rows = [
+          InvaderRow.new(app, 100, InvaderA),
+          InvaderRow.new(app, 150, InvaderB),
+          InvaderRow.new(app, 200, InvaderB),
+          InvaderRow.new(app, 250, InvaderC),
+          InvaderRow.new(app, 300, InvaderC),
         ]
       end
 
       def farmost_right_position
-        invader_collections.max_by do |invader_collection|
-          invader_collection.farmost_right_position
+        invader_rows.max_by do |invader_row|
+          invader_row.farmost_right_position
         end.farmost_right_position
       end
 
       def farmost_left_position
-        invader_collections.min_by do |invader_collection|
-          invader_collection.farmost_left_position
+        invader_rows.min_by do |invader_row|
+          invader_row.farmost_left_position
         end.farmost_left_position
       end
   end

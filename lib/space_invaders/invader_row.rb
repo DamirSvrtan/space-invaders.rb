@@ -2,7 +2,7 @@ require 'forwardable'
 require_relative 'base'
 
 module SpaceInvaders
-  class InvaderCollection < Base
+  class InvaderRow < Base
     extend Forwardable
 
     attr_accessor :direction
