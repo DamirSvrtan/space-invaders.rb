@@ -7,9 +7,9 @@ module SpaceInvaders
 
     def initialize app
       super
-      @welcome_message = Gosu::Image.from_text app, "SpaceInvaders.rb", app.default_font, 50
-      @control_index = Gosu::Image.from_text app, control_index_string, app.default_font, 20
-      @press_play = Gosu::Image.from_text app, "PRESS SPACE TO PLAY", app.default_font, 30
+      @welcome_message = Gosu::Image.from_text app, "SpaceInvaders.rb", App::DEFAULT_FONT, 50
+      @control_index = Gosu::Image.from_text app, control_index_string, App::DEFAULT_FONT, 20
+      @press_play = Gosu::Image.from_text app, "PRESS SPACE TO PLAY", App::DEFAULT_FONT, 30
       @press_play_counter = 0
     end
 

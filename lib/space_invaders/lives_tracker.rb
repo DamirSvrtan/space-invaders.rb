@@ -6,7 +6,7 @@ module SpaceInvaders
     def initialize app
       @app = app
       @lives = app.ship.lives
-      @lives_headline = Gosu::Image.from_text @app, "Lives:", app.default_font, 30
+      @lives_headline = Gosu::Image.from_text @app, "Lives:", App::DEFAULT_FONT, 30
       set_lives_number
     end
 
@@ -16,7 +16,7 @@ module SpaceInvaders
     end
 
     def set_lives_number
-      @lives_number = Gosu::Image.from_text @app, @lives, app.default_font, 30
+      @lives_number = Gosu::Image.from_text @app, @lives, App::DEFAULT_FONT, 30
     end
 
     def draw

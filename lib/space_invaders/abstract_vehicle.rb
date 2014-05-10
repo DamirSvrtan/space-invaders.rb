@@ -27,23 +27,23 @@ module SpaceInvaders
     end
 
     def draw
-      begin
-        @image.draw @x_position, @y_position, 1
-        @bullet_collection.draw
-      rescue
-        binding.pry
-      end
+      @image.draw @x_position, @y_position, 1
+      @bullet_collection.draw
     end
 
     def collides_with?(bullets)
       bullets.each do |bullet|
-        if bullet.x_position.between?(self.x_position, self.x_position + self.width) and
-           bullet.y_position.between?(self.y_position, self.y_position + self.height)
+        if got_hit_by? bullet
           bullets.delete(bullet)
           return true
         end
       end
       return false
+    end
+
+    def got_hit_by?(bullet)
+      bullet.x_position.between?(x_position, x_position + width) and
+      bullet.y_position.between?(y_position, y_position + height)
     end
 
   end

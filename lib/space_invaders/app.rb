@@ -1,5 +1,4 @@
 require "gosu"
-
 require_relative 'invaders_container'
 require_relative 'ship'
 require_relative 'score_tracker'
@@ -17,6 +16,8 @@ module SpaceInvaders
     include Images
     include Sounds
 
+    DEFAULT_FONT = "assets/fonts/unifont.ttf"
+
     attr_reader :game_status, :button_controller, :score_tracker, :lives_tracker,
                 :invaders_container, :ship, :welcome_screen, :game_over_screen
 
@@ -25,6 +26,7 @@ module SpaceInvaders
       self.caption = "Sprite Demonstration"
       initialize_statics
       initialize_dynamics
+      binding.pry
     end
 
     def button_down id
@@ -52,13 +54,7 @@ module SpaceInvaders
         lives_tracker.draw
       elsif game_status.finished?
         game_over_screen.draw
-      else
-        binding.pry
       end
-    end
-
-    def default_font
-      "assets/fonts/unifont.ttf"
     end
 
     def initialize_dynamics

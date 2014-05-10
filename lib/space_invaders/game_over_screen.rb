@@ -7,8 +7,8 @@ module SpaceInvaders
 
     def initialize app
       super
-      @game_over_message = Gosu::Image.from_text app, "G A M E   O V E R", app.default_font, 50
-      @press_play = Gosu::Image.from_text app, "PRESS SPACE TO PLAY AGAIN", app.default_font, 30
+      @game_over_message = Gosu::Image.from_text app, "G A M E   O V E R", App::DEFAULT_FONT, 50
+      @press_play = Gosu::Image.from_text app, "PRESS SPACE TO PLAY AGAIN", App::DEFAULT_FONT, 30
       @press_play_counter = 0
     end
 
@@ -34,7 +34,7 @@ module SpaceInvaders
       end
 
       def set_result
-        @result ||= Gosu::Image.from_text app, "SCORE: #{app.score_tracker.score}", app.default_font, 40
+        @result ||= Gosu::Image.from_text app, "SCORE: #{app.score_tracker.score}", App::DEFAULT_FONT, 40
       end
   end
 end
