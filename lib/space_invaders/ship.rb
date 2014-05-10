@@ -33,7 +33,7 @@ module SpaceInvaders
     end
 
     def fire!
-      bullet = Bullet.new @app, self, true
+      bullet = Bullet.new @app, self, false
       @bullet_collection.bullets << bullet
       app.play_ship_fire!
     end

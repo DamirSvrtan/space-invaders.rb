@@ -3,30 +3,20 @@ module SpaceInvaders
 
     attr_reader :x_position, :y_position
 
-    def initialize app, fireing_vehicle, going_up, bullet_speed=10
-      @app = app
+    def initialize app, fireing_vehicle, going_down, bullet_offset=10
+      super(app)
       @fireing_vehicle = fireing_vehicle
-
       @image = app.bullet_image
+      @bullet_offset = bullet_offset
+      @going_down = going_down
 
       @x_position = @fireing_vehicle.x_middle - @image.width/2
-
-      @bullet_speed = bullet_speed
-      @going_up = going_up
-
-      if @going_up
-        @y_position = @app.height - 50
-      else
-        @y_position = @fireing_vehicle.y_position + @fireing_vehicle.height
-      end
+      @y_position = fireing_vehicle.y_position
+      @y_position += fireing_vehicle.height if going_down
     end
 
     def update
-      if @going_up
-        @y_position -= @bullet_speed
-      else
-        @y_position += @bullet_speed
-      end
+      @y_position += @going_down ? @bullet_offset : -@bullet_offset
     end
 
     def draw
@@ -34,10 +24,10 @@ module SpaceInvaders
     end
 
     def out_of_screen
-      if @going_up
-        @y_position < 0
-      else
+      if @going_down
         @y_position > @app.height
+      else
+        @y_position < 0
       end
     end
 

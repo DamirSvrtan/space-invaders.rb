@@ -59,39 +59,39 @@ module SpaceInvaders
     def no_invaders?
       count.zero?
     end
-private
-    def update_direction direction, y_offset
-      invader_rows.each do |invader_row|
-        invader_row.update direction, y_offset
+
+    private
+
+      def update_direction direction, y_offset
+        invader_rows.each do |invader_row|
+          invader_row.update direction, y_offset
+        end
       end
-    end
 
-    def can_fire?
-      Time.now > @can_fire + 2
-    end
+      def can_fire?
+        Time.now > @can_fire + 2
+      end
 
-    def can_change?
-      Time.now > @change_time + 0.25
-    end
+      def can_change?
+        Time.now > @change_time + 0.25
+      end
 
-    def check_collision
-      invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
-      invader_rows.delete_if {|invader_row| invader_row.empty?}
-    end
+      def check_collision
+        invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
+        invader_rows.delete_if {|invader_row| invader_row.empty?}
+      end
 
-    def fireable_invaders
-      InvaderRow::X_POSITIONS.map do |x_position|
-        invader_rows.reverse.map do |invader_row|
-          invader_row.find {|invader| invader.original_x_position == x_position }
-        end.compact.first
-      end.compact
-    end
-
-    
+      def fireable_invaders
+        InvaderRow::X_POSITIONS.map do |x_position|
+          invader_rows.reverse.map do |invader_row|
+            invader_row.find {|invader| invader.original_x_position == x_position }
+          end.compact.first
+        end.compact
+      end
 
       def fire_bullet
         firing_invader = fireable_invaders.sample
-        bullet = Bullet.new(app, firing_invader, false, 5)
+        bullet = Bullet.new(app, firing_invader, true, 5)
         @bullet_collection.bullets << bullet
         app.play_invader_fire!
         @can_fire = Time.now
