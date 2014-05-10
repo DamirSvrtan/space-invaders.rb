@@ -11,7 +11,6 @@ module SpaceInvaders
     def initialize app
       super
       create_invader_collections
-
       @change_time = Time.now
       @can_fire = Time.now
       @direction = :right
@@ -19,41 +18,48 @@ module SpaceInvaders
       @y_offset = 0
     end
 
+    def update
+      check_collision
+      change_direction if can_change?
+      fire_bullet if can_fire?
+      bullets.update
+    end
+
+    def draw
+      invader_collections.each {|invader_collection| invader_collection.draw }
+      bullets.draw
+    end
+
     def bullets
       @bullet_collection
     end
 
-    def update
-      return if game_status.drowned_ship?
-
-      check_collision
-
-      if any_invaders? and can_change?
-        if farmost_right_position >= app.width - 80
-          @direction = :left
-          @y_offset = 10
-        elsif farmost_left_position <= 20
-          @direction = :right
-          @y_offset = 10
-        else
-          @y_offset = 0
-        end
-
-        update_direction(@direction, @y_offset)
-        @change_time = Time.now
+    def change_direction
+      if farmost_right_position >= app.width - 80
+        @direction = :left
+        @y_offset = 10
+      elsif farmost_left_position <= 20
+        @direction = :right
+        @y_offset = 10
+      else
+        @y_offset = 0
       end
-
-      if any_invaders? and can_fire?
-        firing_invader = fireable_invaders.sample
-        bullet = Bullet.new app, firing_invader, false, 5
-        @bullet_collection.bullets << bullet
-        @can_fire = Time.now
-        app.play_invader_fire!
-      end
-
-      bullets.update
+      update_direction(@direction, @y_offset)
+      @change_time = Time.now
     end
 
+    def count
+      invader_collections.map {|invader_collection| invader_collection.count}.inject(:+) || 0
+    end
+
+    def any_invaders?
+      not count.zero?
+    end
+
+    def no_invaders?
+      count.zero?
+    end
+private
     def update_direction direction, y_offset
       invader_collections.each do |invader_collection|
         invader_collection.update direction, y_offset
@@ -69,33 +75,8 @@ module SpaceInvaders
     end
 
     def check_collision
-      invader_collections.each do |invader_collection|
-        invader_collection.check_collision(rival_bullets)
-      end
+      invader_collections.each { |invader_collection| invader_collection.check_collision(rival_bullets) }
       invader_collections.delete_if {|invader_collection| invader_collection.empty?}
-    end
-
-    def draw
-      invader_collections.each do |invader_collection|
-        invader_collection.draw
-      end
-      bullets.draw
-    end
-
-    def count
-      count = 0
-      invader_collections.each do |invader_collection|
-        count += invader_collection.count
-      end
-      count
-    end
-
-    def any_invaders?
-      count != 0
-    end
-
-    def no_invaders?
-      count == 0
     end
 
     def fireable_invaders
@@ -106,7 +87,15 @@ module SpaceInvaders
       end.compact
     end
 
-    private
+    
+
+      def fire_bullet
+        firing_invader = fireable_invaders.sample
+        bullet = Bullet.new(app, firing_invader, false, 5)
+        @bullet_collection.bullets << bullet
+        app.play_invader_fire!
+        @can_fire = Time.now
+      end
 
       def rival_bullets
         app.ship.bullets
