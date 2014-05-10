@@ -11,6 +11,7 @@ require_relative 'button_controller'
 require_relative 'welcome_screen'
 require_relative 'game_over_screen'
 require_relative 'red_invader'
+require_relative 'block'
 
 module SpaceInvaders
   class App < Gosu::Window
@@ -41,6 +42,7 @@ module SpaceInvaders
           invaders_container.update
           ship.update
           red_invader.update
+          @block.update
         end
       end
     end
@@ -68,6 +70,7 @@ module SpaceInvaders
       @score_tracker = ScoreTracker.new self
       @lives_tracker = LivesTracker.new self
       @red_invader = RedInvader.new self
+      @block = Block.new self, 100, 100
     end
 
     def draw_dynamics
@@ -76,6 +79,7 @@ module SpaceInvaders
       score_tracker.draw
       lives_tracker.draw
       red_invader.draw
+      @block.draw
     end
 
   end

@@ -86,8 +86,7 @@ module SpaceInvaders
 
       def fire_bullet
         firing_invader = fireable_invaders.sample
-        bullet = Bullet.new(app, firing_invader, true, 5)
-        @bullet_collection.bullets << bullet
+        bullet = Bullet.new(firing_invader, true, @bullet_collection, 5)
         app.play_invader_fire!
       end
 

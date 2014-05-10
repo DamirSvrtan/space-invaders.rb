@@ -1,8 +1,10 @@
 require_relative 'bullet'
 require_relative 'bullet_collection'
+require_relative 'collideable'
 
 module SpaceInvaders
   class AbstractVehicle < Base
+    include Collideable
     attr_accessor :x_position, :y_position
 
     def initialize app
@@ -29,21 +31,6 @@ module SpaceInvaders
     def draw
       @image.draw @x_position, @y_position, 1
       @bullet_collection.draw
-    end
-
-    def collides_with?(bullets)
-      bullets.each do |bullet|
-        if got_hit_by? bullet
-          bullets.delete(bullet)
-          return true
-        end
-      end
-      return false
-    end
-
-    def got_hit_by?(bullet)
-      bullet.x_position.between?(x_position, x_position + width) and
-      bullet.y_position.between?(y_position, y_position + height)
     end
 
   end

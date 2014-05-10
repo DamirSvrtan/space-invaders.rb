@@ -23,5 +23,9 @@ module SpaceInvaders
     def delete(bullet)
       @bullets.delete(bullet)
     end
+
+    def <<(bullet)
+      @bullets << bullet
+    end
   end
 end

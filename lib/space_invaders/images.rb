@@ -43,5 +43,18 @@ module SpaceInvaders
     def bullet_image
       @bullet_image ||= Gosu::Image.new self, "assets/images/Bullet.png"
     end
+
+    def full_block_image
+      @full_block_image ||= Gosu::Image.new self, "assets/images/FullBlock.png"
+    end
+
+    def ok_block_image
+      @ok_block_image ||= Gosu::Image.new self, "assets/images/OkBlock.png"
+    end
+
+    def weak_block_image
+      @weak_block_image ||= Gosu::Image.new self, "assets/images/WeakBlock.png"
+    end
+
   end
 end
