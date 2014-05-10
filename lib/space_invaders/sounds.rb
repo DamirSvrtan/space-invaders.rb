@@ -18,19 +18,19 @@ module SpaceInvaders
     end
 
     def play_ship_hit!
-      ship_hit_sound.play
+      ship_hit_sound.play volume=0.5
     end
 
     def play_ship_fire!
-      ship_bullet_sound.play volume=0.3
+      ship_bullet_sound.play volume=0.05
     end
 
     def play_invader_hit!
-      invader_hit_sound.play
+      invader_hit_sound.play volume=0.5
     end
 
     def play_invader_fire!
-      invader_bullet_sound.play volume=0.3
+      invader_bullet_sound.play volume=0.05
     end
   end
 end

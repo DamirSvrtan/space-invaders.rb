@@ -60,7 +60,7 @@ module SpaceInvaders
       end
 
       def hit_rock_bottom?
-        if fireable_invaders.first.y_position == app.height
+        if any_invaders? and fireable_invaders.first.y_position == app.height
           app.game_status.finished!
         end
       end
