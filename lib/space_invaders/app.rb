@@ -10,6 +10,7 @@ require_relative 'game_status'
 require_relative 'button_controller'
 require_relative 'welcome_screen'
 require_relative 'game_over_screen'
+require_relative 'red_invader'
 
 module SpaceInvaders
   class App < Gosu::Window
@@ -19,7 +20,7 @@ module SpaceInvaders
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
     attr_reader :game_status, :button_controller, :score_tracker, :lives_tracker,
-                :invaders_container, :ship, :welcome_screen, :game_over_screen
+                :invaders_container, :ship, :welcome_screen, :game_over_screen, :red_invader
 
     def initialize width=800, height=600, fullscreen=false
       super
@@ -39,6 +40,7 @@ module SpaceInvaders
         if invaders_container.any_invaders?
           invaders_container.update
           ship.update
+          red_invader.update
         end
       end
     end
@@ -47,20 +49,10 @@ module SpaceInvaders
       if game_status.hasnt_started?
         welcome_screen.draw
       elsif game_status.drowned_ship? or game_status.being_played?
-        invaders_container.draw
-        ship.draw
-        score_tracker.draw
-        lives_tracker.draw
+        draw_dynamics
       elsif game_status.finished?
         game_over_screen.draw
       end
-    end
-
-    def initialize_dynamics
-      @invaders_container = InvadersContainer.new self
-      @ship = Ship.new self
-      @score_tracker = ScoreTracker.new self
-      @lives_tracker = LivesTracker.new self
     end
 
     def initialize_statics
@@ -68,6 +60,22 @@ module SpaceInvaders
       @welcome_screen = WelcomeScreen.new self
       @game_over_screen = GameOverScreen.new self
       @button_controller = ButtonController.new self
+    end
+
+    def initialize_dynamics
+      @invaders_container = InvadersContainer.new self
+      @ship = Ship.new self
+      @score_tracker = ScoreTracker.new self
+      @lives_tracker = LivesTracker.new self
+      @red_invader = RedInvader.new self
+    end
+
+    def draw_dynamics
+      invaders_container.draw
+      ship.draw
+      score_tracker.draw
+      lives_tracker.draw
+      red_invader.draw
     end
 
   end

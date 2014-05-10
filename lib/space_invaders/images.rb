@@ -24,6 +24,10 @@ module SpaceInvaders
       @invader_c2_image ||= Gosu::Image.new self, "assets/images/InvaderC2.png"
     end
 
+    def red_invader_image
+      @invader_d_image ||= Gosu::Image.new self, "assets/images/InvaderD.png"
+    end
+
     def ship_image
       @ship_image ||= Gosu::Image.new self, "assets/images/Ship3.png"
     end

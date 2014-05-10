@@ -56,6 +56,13 @@ module SpaceInvaders
       def check_collision
         invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
         invader_rows.delete_if {|invader_row| invader_row.empty?}
+        hit_rock_bottom?
+      end
+
+      def hit_rock_bottom?
+        if fireable_invaders.first.y_position == app.height
+          app.game_status.finished!
+        end
       end
 
       def change_direction
