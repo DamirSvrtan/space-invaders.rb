@@ -11,14 +11,13 @@ module SpaceInvaders
     X_POSITIONS = [40, 110, 180, 250, 320, 390, 460, 530]
 
     def initialize app, y_position, invader_clazz
-      @app = app
+      super(app)
       @y_position = y_position
       @direction = :right
       @invader_clazz = invader_clazz
       @invaders = []
       X_POSITIONS.each do |x_position|
-        invader = invader_clazz.new(app, x_position, y_position)
-        @invaders << invader
+        @invader << invader_clazz.new(app, x_position, y_position)
       end
     end
 

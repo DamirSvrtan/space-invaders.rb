@@ -5,7 +5,6 @@ require_relative 'invader_c'
 
 module SpaceInvaders
   class InvadersContainer < Base
-
     attr_reader :invader_rows
 
     def initialize app
@@ -20,8 +19,14 @@ module SpaceInvaders
 
     def update
       check_collision
-      change_direction if can_change?
-      fire_bullet if can_fire?
+      if can_change?
+        change_direction
+        @change_time = Time.now
+      end
+      if can_fire?
+        fire_bullet
+        @can_fire = Time.now
+      end
       bullets.update
     end
 
@@ -32,20 +37,6 @@ module SpaceInvaders
 
     def bullets
       @bullet_collection
-    end
-
-    def change_direction
-      if farmost_right_position >= app.width - 80
-        @direction = :left
-        @y_offset = 10
-      elsif farmost_left_position <= 20
-        @direction = :right
-        @y_offset = 10
-      else
-        @y_offset = 0
-      end
-      update_direction(@direction, @y_offset)
-      @change_time = Time.now
     end
 
     def count
@@ -62,10 +53,35 @@ module SpaceInvaders
 
     private
 
+      def check_collision
+        invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
+        invader_rows.delete_if {|invader_row| invader_row.empty?}
+      end
+
+      def change_direction
+        if farmost_right_position >= app.width - 80
+          @direction = :left
+          @y_offset = 10
+        elsif farmost_left_position <= 20
+          @direction = :right
+          @y_offset = 10
+        else
+          @y_offset = 0
+        end
+        update_direction(@direction, @y_offset)
+      end
+
       def update_direction direction, y_offset
         invader_rows.each do |invader_row|
           invader_row.update direction, y_offset
         end
+      end
+
+      def fire_bullet
+        firing_invader = fireable_invaders.sample
+        bullet = Bullet.new(app, firing_invader, true, 5)
+        @bullet_collection.bullets << bullet
+        app.play_invader_fire!
       end
 
       def can_fire?
@@ -76,25 +92,12 @@ module SpaceInvaders
         Time.now > @change_time + 0.25
       end
 
-      def check_collision
-        invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
-        invader_rows.delete_if {|invader_row| invader_row.empty?}
-      end
-
       def fireable_invaders
         InvaderRow::X_POSITIONS.map do |x_position|
           invader_rows.reverse.map do |invader_row|
             invader_row.find {|invader| invader.original_x_position == x_position }
           end.compact.first
         end.compact
-      end
-
-      def fire_bullet
-        firing_invader = fireable_invaders.sample
-        bullet = Bullet.new(app, firing_invader, true, 5)
-        @bullet_collection.bullets << bullet
-        app.play_invader_fire!
-        @can_fire = Time.now
       end
 
       def rival_bullets
