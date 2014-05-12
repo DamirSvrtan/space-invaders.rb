@@ -2,9 +2,11 @@ require_relative 'invader_row'
 require_relative 'invader_a'
 require_relative 'invader_b'
 require_relative 'invader_c'
+require_relative 'fireable'
 
 module SpaceInvaders
   class InvadersContainer < Base
+    include Fireable
     attr_reader :invader_rows
 
     def initialize app
@@ -13,7 +15,6 @@ module SpaceInvaders
       @change_time = Time.now
       @can_fire = Time.now
       @direction = :right
-      @bullet_collection = BulletCollection.new
       @y_offset = 0
     end
 
@@ -31,7 +32,7 @@ module SpaceInvaders
       end
 
       if can_fire?
-        fire_bullet
+        fire!
         @can_fire = Time.now
       end
 
@@ -41,10 +42,6 @@ module SpaceInvaders
     def draw
       invader_rows.each {|invader_row| invader_row.draw }
       bullets.draw
-    end
-
-    def bullets
-      @bullet_collection
     end
 
     def count
@@ -98,10 +95,12 @@ module SpaceInvaders
         invader_rows.each {|invader_row| invader_row.update direction, y_offset }
       end
 
-      def fire_bullet
-        firing_invader = fireable_invaders.sample
-        bullet = Bullet.new(firing_invader, true, @bullet_collection, 5)
-        app.play_invader_fire!
+      def shooter
+        fireable_invaders.sample
+      end
+
+      def sound
+        app.invader_bullet_sound
       end
 
       def can_fire?
