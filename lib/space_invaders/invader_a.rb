@@ -3,8 +3,8 @@ require_relative 'invader'
 module SpaceInvaders
   class InvaderA < Invader
     def initialize app, x_position=0, y_position=0
-      @first_image = app.images.invader_a1_image
-      @second_image = app.images.invader_a2_image
+      @first_image = app.images.invader_a1
+      @second_image = app.images.invader_a2
       super
     end
 

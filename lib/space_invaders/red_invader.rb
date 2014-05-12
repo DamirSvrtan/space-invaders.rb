@@ -7,8 +7,8 @@ module SpaceInvaders
     alias_method :dead?, :dead
 
     def initialize app, x_position=0, y_position=50
-      @first_image = app.images.red_invader_image
-      @second_image = app.images.red_invader_image
+      @first_image = app.images.red_invader
+      @second_image = app.images.red_invader
       @can_move = Time.now
       @direction = :right
       @dead = false

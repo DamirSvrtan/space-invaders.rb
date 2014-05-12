@@ -11,7 +11,7 @@ module SpaceInvaders
 
     def initialize app
       super
-      @image = app.images.ship_image
+      @image = app.images.ship
       @x_position = app.width/2 - 40
       @y_position = app.height - 50
       @lives = 3
@@ -68,10 +68,10 @@ module SpaceInvaders
       end
 
       def animate_drowned_ship!
-        if @image == app.images.ship_crushed_left_image
-          @image = app.images.ship_crushed_right_image
+        if @image == app.images.ship_crushed_left
+          @image = app.images.ship_crushed_right
         else
-          @image = app.images.ship_crushed_left_image
+          @image = app.images.ship_crushed_left
         end
       end
 

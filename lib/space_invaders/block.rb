@@ -52,9 +52,9 @@ module SpaceInvaders
 
     def set_image
       @image = case health
-               when 3 then app.images.full_block_image
-               when 2 then app.images.ok_block_image
-               when 1 then app.images.weak_block_image
+               when 3 then app.images.full_block
+               when 2 then app.images.ok_block
+               when 1 then app.images.weak_block
                end
     end
 

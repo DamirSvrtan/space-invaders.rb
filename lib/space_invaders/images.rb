@@ -21,12 +21,11 @@ module SpaceInvaders
              ]
 
     IMAGES.each do |image|
-      method_name = "#{image}_image"
-      define_method method_name do
-        if instance_variable_get("@#{method_name}").nil?
-          instance_variable_set("@#{method_name}", Gosu::Image.new(app, asset_path(image)))
+      define_method image do
+        if instance_variable_get("@#{image}").nil?
+          instance_variable_set("@#{image}", Gosu::Image.new(app, asset_path(image)))
         end
-        instance_variable_get("@#{method_name}")
+        instance_variable_get("@#{image}")
       end
     end
 

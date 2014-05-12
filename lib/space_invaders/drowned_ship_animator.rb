@@ -27,9 +27,9 @@ module SpaceInvaders
         app.game_status.continue!
         app.images.ship_image
       elsif left_image_time?
-        app.images.ship_crushed_left_image
+        app.images.ship_crushed_left
       else
-        app.images.ship_crushed_right_image
+        app.images.ship_crushed_right
       end
     end
 
