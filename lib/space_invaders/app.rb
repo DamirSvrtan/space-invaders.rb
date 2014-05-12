@@ -14,6 +14,7 @@ require_relative 'next_level_screen'
 require_relative 'red_invader'
 require_relative 'u_block'
 require_relative 'u_block_container'
+require_relative 'utils'
 
 module SpaceInvaders
   class App < Gosu::Window
@@ -75,13 +76,8 @@ module SpaceInvaders
 
       def define_properties(*properties)
         properties.each do |property|
-          instance_variable_set "@#{property}", to_klass(property).new(self)
+          instance_variable_set "@#{property}", Utils.to_klass(property).new(self)
         end
-      end
-
-      def to_klass(property)
-        klass_name = property.to_s.split('_').map{|e| e.capitalize}.join
-        Object.const_get("SpaceInvaders::#{klass_name}")
       end
 
   end
