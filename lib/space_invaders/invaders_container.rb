@@ -1,7 +1,5 @@
 require_relative 'invader_row'
-require_relative 'invader_a'
-require_relative 'invader_b'
-require_relative 'invader_c'
+require_relative 'invader_abc'
 require_relative 'fireable'
 
 module SpaceInvaders

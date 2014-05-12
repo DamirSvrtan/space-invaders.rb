@@ -1,6 +1,7 @@
 require_relative 'drowned_ship_animator'
 require_relative 'mesurable'
-
+require_relative 'collideable'
+require_relative 'fireable'
 module SpaceInvaders
   class Ship < Base
     include Mesurable

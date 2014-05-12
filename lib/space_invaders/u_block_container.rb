@@ -21,9 +21,9 @@ module SpaceInvaders
 
     def initialize_u_blocks
       @u_blocks = [
-        UBlock.new(app, 100, 400),
-        UBlock.new(app, 300, 400),
-        UBlock.new(app, 500, 400)
+        UBlock.new(app, 150, 400),
+        UBlock.new(app, 350, 400),
+        UBlock.new(app, 550, 400)
       ]
     end
 

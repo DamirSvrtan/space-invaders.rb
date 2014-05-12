@@ -25,7 +25,7 @@ module SpaceInvaders
     def update
       ship.image = if animation_time_is_over?
         app.game_status.continue!
-        app.images.ship_image
+        app.images.ship
       elsif left_image_time?
         app.images.ship_crushed_left
       else
