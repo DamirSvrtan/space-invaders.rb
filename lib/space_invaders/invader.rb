@@ -1,7 +1,11 @@
 require_relative 'abstract_vehicle'
-
+require_relative 'mesurable'
+require_relative 'collideable'
 module SpaceInvaders
-  class Invader < AbstractVehicle
+  class Invader < Base
+    include Mesurable
+    include Collideable
+
     attr_reader :original_x_position
 
     def initialize app, x_position, y_position
@@ -21,6 +25,10 @@ module SpaceInvaders
 
       @was_first_image = !@was_first_image
       @image = @was_first_image ? @first_image : @second_image
+    end
+
+    def draw
+      @image.draw x_position, y_position, 1
     end
 
     def points

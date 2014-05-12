@@ -1,8 +1,12 @@
 require_relative 'abstract_vehicle'
 require_relative 'drowned_ship_animator'
+require_relative 'mesurable'
 
 module SpaceInvaders
-  class Ship < AbstractVehicle
+  class Ship < Base
+    include Mesurable
+    include Fireable
+    include Collideable
 
     attr_accessor :lives, :image, :drowned_ship_animator
 
@@ -32,9 +36,25 @@ module SpaceInvaders
       lives == 0
     end
 
-    def fire!
-      bullet = Bullet.new self, false,  @bullet_collection, 10
-      app.play_ship_fire!
+    def shooter
+      self
+    end
+
+    def sound
+      app.ship_bullet_sound
+    end
+
+    def bullets_going_down?
+      false
+    end
+
+    def bullet_offset_speed
+      10
+    end
+
+    def draw
+      @image.draw @x_position, @y_position, 1
+      bullet_collection.draw
     end
 
     private

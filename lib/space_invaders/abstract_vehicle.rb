@@ -5,7 +5,7 @@ require_relative 'collideable'
 module SpaceInvaders
   class AbstractVehicle < Base
     include Collideable
-    attr_accessor :x_position, :y_position
+    
 
     def initialize app
       @app = app
@@ -14,18 +14,6 @@ module SpaceInvaders
 
     def bullets
       @bullet_collection
-    end
-
-    def x_middle
-      @x_position + @image.width/2
-    end
-
-    def width
-      @image.width
-    end
-
-    def height
-      @image.height
     end
 
     def draw
