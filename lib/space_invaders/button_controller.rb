@@ -24,7 +24,7 @@ module SpaceInvaders
         elsif game_status.being_played?
           app.ship.fire!
         elsif game_status.finished?
-          app.initialize_dynamics
+          app.initialize_dynamics_and_trackers
           game_status.start!
         end
       end

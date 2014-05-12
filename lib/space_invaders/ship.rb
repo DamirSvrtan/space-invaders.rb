@@ -27,7 +27,7 @@ module SpaceInvaders
           handle_collision
         else
           move_ship
-          @bullet_collection.update
+          bullet_collection.update
         end
       end
     end

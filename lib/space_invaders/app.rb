@@ -21,16 +21,18 @@ module SpaceInvaders
 
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
-    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen, :next_level_screen, :images, :sounds
-    DYNAMICS = :ship, :invaders_container, :lives_tracker, :u_block_container, :red_invader, :score_tracker
+    STATICS = :game_status, :button_controller, :images, :sounds, 
+              :welcome_screen, :game_over_screen, :next_level_screen
+    TRACKERS = :lives_tracker, :score_tracker
+    DYNAMICS = :ship, :invaders_container, :u_block_container, :red_invader
 
-    attr_reader *STATICS, *DYNAMICS
+    attr_reader *STATICS, *TRACKERS, *DYNAMICS
 
     def initialize width=800, height=600, fullscreen=false
       super
       self.caption = "Sprite Demonstration"
       initialize_statics
-      initialize_dynamics
+      initialize_dynamics_and_trackes
     end
 
     def button_down id
@@ -41,10 +43,7 @@ module SpaceInvaders
       if game_status.drowned_ship?
         ship.update
       elsif game_status.being_played?
-        invaders_container.update
-        ship.update
-        red_invader.update
-        u_block_container.update
+        update_dynamics
       end
     end
 
@@ -64,12 +63,20 @@ module SpaceInvaders
       define_properties *STATICS
     end
 
-    def initialize_dynamics
-      define_properties *DYNAMICS
+    def initialize_dynamics_and_trackes
+      define_properties *DYNAMICS, *TRACKERS
     end
 
     def draw_dynamics
       DYNAMICS.each {|dynamic_element| self.send(dynamic_element).draw}
+    end
+
+    def draw_trackers
+      TRACKERS.each {|tracker_element| self.send(tracker_element).draw}
+    end
+
+    def update_dynamics
+      DYNAMICS.each {|dynamic_element| self.send(dynamic_element).update}
     end
 
     private
