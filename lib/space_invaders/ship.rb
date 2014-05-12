@@ -11,7 +11,7 @@ module SpaceInvaders
 
     def initialize app
       super
-      @image = app.ship_image
+      @image = app.images.ship_image
       @x_position = app.width/2 - 40
       @y_position = app.height - 50
       @lives = 3
@@ -40,7 +40,7 @@ module SpaceInvaders
     end
 
     def sound
-      app.ship_bullet_sound
+      app.sounds.ship_bullet_sound
     end
 
     def bullets_going_down?
@@ -68,15 +68,15 @@ module SpaceInvaders
       end
 
       def animate_drowned_ship!
-        if @image == app.ship_crushed_left_image
-          @image = app.ship_crushed_right_image
+        if @image == app.images.ship_crushed_left_image
+          @image = app.images.ship_crushed_right_image
         else
-          @image = app.ship_crushed_left_image
+          @image = app.images.ship_crushed_left_image
         end
       end
 
       def handle_collision
-        app.play_ship_hit!
+        app.sounds.play_ship_hit!
         decrease_lives!
         if no_more_lives?
           game_status.finished!

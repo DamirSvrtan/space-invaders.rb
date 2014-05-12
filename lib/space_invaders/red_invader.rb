@@ -7,8 +7,8 @@ module SpaceInvaders
     alias_method :dead?, :dead
 
     def initialize app, x_position=0, y_position=50
-      @first_image = app.red_invader_image
-      @second_image = app.red_invader_image
+      @first_image = app.images.red_invader_image
+      @second_image = app.images.red_invader_image
       @can_move = Time.now
       @direction = :right
       @dead = false
@@ -43,7 +43,7 @@ module SpaceInvaders
     def handle_death
       @dead = true
       app.score_tracker.increase_by(points)
-      app.play_invader_hit!
+      app.sounds.play_invader_hit!
     end
 
     def set_direction

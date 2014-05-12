@@ -25,11 +25,11 @@ module SpaceInvaders
     def update
       ship.image = if animation_time_is_over?
         app.game_status.continue!
-        app.ship_image
+        app.images.ship_image
       elsif left_image_time?
-        app.ship_crushed_left_image
+        app.images.ship_crushed_left_image
       else
-        app.ship_crushed_right_image
+        app.images.ship_crushed_right_image
       end
     end
 

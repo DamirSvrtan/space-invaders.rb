@@ -100,7 +100,7 @@ module SpaceInvaders
       end
 
       def sound
-        app.invader_bullet_sound
+        app.sounds.invader_bullet_sound
       end
 
       def can_fire?

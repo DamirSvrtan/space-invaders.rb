@@ -1,20 +1,21 @@
+require_relative 'base'
 module SpaceInvaders
-  module Sounds
+  class Sounds < Base
 
     def ship_hit_sound
-      @ship_hit_sound ||= Gosu::Sample.new(self, "assets/sounds/ShipHit.wav")
+      @ship_hit_sound ||= Gosu::Sample.new(app, "assets/sounds/ShipHit.wav")
     end
   
     def ship_bullet_sound
-      @ship_bullet_sound ||= Gosu::Sample.new(self, "assets/sounds/ShipBullet.wav")
+      @ship_bullet_sound ||= Gosu::Sample.new(app, "assets/sounds/ShipBullet.wav")
     end
 
     def invader_hit_sound
-      @invader_hit_sound ||= Gosu::Sample.new(self, "assets/sounds/InvaderHit.wav")
+      @invader_hit_sound ||= Gosu::Sample.new(app, "assets/sounds/InvaderHit.wav")
     end
 
     def invader_bullet_sound
-      @invader_bullet_sound ||= Gosu::Sample.new(self, "assets/sounds/InvaderBullet.wav")
+      @invader_bullet_sound ||= Gosu::Sample.new(app, "assets/sounds/InvaderBullet.wav")
     end
 
     def play_ship_hit!

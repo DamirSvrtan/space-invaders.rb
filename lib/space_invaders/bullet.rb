@@ -8,7 +8,7 @@ module SpaceInvaders
     def initialize fireing_vehicle, going_down, bullet_collection, bullet_offset=10
       super(fireing_vehicle.app)
       @fireing_vehicle = fireing_vehicle
-      @image = app.bullet_image
+      @image = app.images.bullet_image
       @bullet_offset = bullet_offset
       @going_down = going_down
       @bullet_collection = bullet_collection

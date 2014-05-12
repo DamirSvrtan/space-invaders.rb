@@ -17,12 +17,10 @@ require_relative 'u_block_container'
 
 module SpaceInvaders
   class App < Gosu::Window
-    include Images
-    include Sounds
 
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
-    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen, :next_level_screen
+    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen, :next_level_screen, :images, :sounds
     DYNAMICS = :ship, :invaders_container, :lives_tracker, :u_block_container, :red_invader, :score_tracker
 
     attr_reader *STATICS, *DYNAMICS
