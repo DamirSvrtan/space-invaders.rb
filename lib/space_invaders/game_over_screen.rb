@@ -1,7 +1,9 @@
 require_relative 'base'
+require_relative 'centerable'
 
 module SpaceInvaders
   class GameOverScreen < Base
+    include Centerable
 
     attr_reader :game_over_message, :result, :control_index, :press_play
 

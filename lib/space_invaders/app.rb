@@ -11,7 +11,8 @@ require_relative 'button_controller'
 require_relative 'welcome_screen'
 require_relative 'game_over_screen'
 require_relative 'red_invader'
-require_relative 'block'
+require_relative 'u_block'
+require_relative 'u_block_container'
 
 module SpaceInvaders
   class App < Gosu::Window
@@ -20,8 +21,10 @@ module SpaceInvaders
 
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
-    attr_reader :game_status, :button_controller, :score_tracker, :lives_tracker,
-                :invaders_container, :ship, :welcome_screen, :game_over_screen, :red_invader
+    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen
+    DYNAMICS = :ship, :invaders_container, :lives_tracker, :u_block_container, :red_invader, :score_tracker
+
+    attr_reader *STATICS, *DYNAMICS
 
     def initialize width=800, height=600, fullscreen=false
       super
@@ -42,7 +45,7 @@ module SpaceInvaders
           invaders_container.update
           ship.update
           red_invader.update
-          @block.update
+          u_block_container.update
         end
       end
     end
@@ -58,29 +61,29 @@ module SpaceInvaders
     end
 
     def initialize_statics
-      @game_status = GameStatus.new self
-      @welcome_screen = WelcomeScreen.new self
-      @game_over_screen = GameOverScreen.new self
-      @button_controller = ButtonController.new self
+      define_properties *STATICS
     end
 
     def initialize_dynamics
-      @invaders_container = InvadersContainer.new self
-      @ship = Ship.new self
-      @score_tracker = ScoreTracker.new self
-      @lives_tracker = LivesTracker.new self
-      @red_invader = RedInvader.new self
-      @block = Block.new self, 100, 100
+      define_properties *DYNAMICS
     end
 
     def draw_dynamics
-      invaders_container.draw
-      ship.draw
-      score_tracker.draw
-      lives_tracker.draw
-      red_invader.draw
-      @block.draw
+      DYNAMICS.each {|dynamic_element| self.send(dynamic_element).draw}
     end
+
+    private
+
+      def define_properties(*properties)
+        properties.each do |property|
+          instance_variable_set "@#{property}", to_klass(property).new(self)
+        end
+      end
+
+      def to_klass(property)
+        klass_name = property.to_s.split('_').map{|e| e.capitalize}.join
+        Object.const_get("SpaceInvaders::#{klass_name}")
+      end
 
   end
 end

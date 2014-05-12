@@ -1,7 +1,9 @@
 require_relative 'base'
+require_relative 'centerable'
 
 module SpaceInvaders
   class WelcomeScreen < Base
+    include Centerable
 
     attr_reader :welcome_message, :control_index, :press_play
 

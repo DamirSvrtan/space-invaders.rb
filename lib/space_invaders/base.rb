@@ -10,10 +10,5 @@ module SpaceInvaders
       app.game_status
     end
 
-    def horizontal_center_draw(image, y)
-      x = app.width/2 - image.width/2
-      image.draw(x, y, 1)
-    end
-
   end
 end

@@ -15,8 +15,8 @@ module SpaceInvaders
     end
 
     def update(direction, y_offset=0)
-      offset = direction == :right ? 10 : -10
-      @x_position += offset
+      x_offset = direction == :right ? 10 : -10
+      @x_position += x_offset
       @y_position += y_offset
 
       @was_first_image = !@was_first_image

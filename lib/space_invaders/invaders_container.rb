@@ -91,7 +91,7 @@ module SpaceInvaders
       end
 
       def can_fire?
-        Time.now > @can_fire + 2
+        any_invaders? and Time.now > @can_fire + 2
       end
 
       def can_change?
