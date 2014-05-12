@@ -19,14 +19,22 @@ module SpaceInvaders
 
     def update
       check_collision
+
+      if no_invaders?
+        app.next_level_screen.timer_start!
+        return game_status.next_level!
+      end
+
       if can_change?
         change_direction
         @change_time = Time.now
       end
+
       if can_fire?
         fire_bullet
         @can_fire = Time.now
       end
+
       bullets.update
     end
 
@@ -49,6 +57,14 @@ module SpaceInvaders
 
     def no_invaders?
       count.zero?
+    end
+
+    def reinitialize!
+      create_invader_rows
+      bullets.clear
+      rival_bullets.clear
+      @change_time = Time.now
+      @can_fire = Time.now
     end
 
     private
@@ -106,10 +122,6 @@ module SpaceInvaders
         end.compact
       end
 
-      def rival_bullets
-        app.ship.bullets
-      end
-
       def create_invader_rows
         @invader_rows = [
           InvaderRow.new(app, 100, InvaderA),
@@ -118,6 +130,10 @@ module SpaceInvaders
           InvaderRow.new(app, 250, InvaderC),
           InvaderRow.new(app, 300, InvaderC),
         ]
+      end
+
+      def rival_bullets
+        app.ship.bullets
       end
 
       def farmost_right_position

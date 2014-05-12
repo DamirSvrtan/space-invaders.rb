@@ -10,6 +10,7 @@ require_relative 'game_status'
 require_relative 'button_controller'
 require_relative 'welcome_screen'
 require_relative 'game_over_screen'
+require_relative 'next_level_screen'
 require_relative 'red_invader'
 require_relative 'u_block'
 require_relative 'u_block_container'
@@ -21,7 +22,7 @@ module SpaceInvaders
 
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
-    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen
+    STATICS = :game_status, :button_controller, :welcome_screen, :game_over_screen, :next_level_screen
     DYNAMICS = :ship, :invaders_container, :lives_tracker, :u_block_container, :red_invader, :score_tracker
 
     attr_reader *STATICS, *DYNAMICS
@@ -41,18 +42,18 @@ module SpaceInvaders
       if game_status.drowned_ship?
         ship.update
       elsif game_status.being_played?
-        if invaders_container.any_invaders?
-          invaders_container.update
-          ship.update
-          red_invader.update
-          u_block_container.update
-        end
+        invaders_container.update
+        ship.update
+        red_invader.update
+        u_block_container.update
       end
     end
 
     def draw
       if game_status.hasnt_started?
         welcome_screen.draw
+      elsif game_status.next_level?
+        next_level_screen.draw
       elsif game_status.drowned_ship? or game_status.being_played?
         draw_dynamics
       elsif game_status.finished?

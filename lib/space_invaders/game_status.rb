@@ -1,31 +1,31 @@
 module SpaceInvaders
   class GameStatus < Base
 
-    attr_accessor :started, :finished, :drowned_ship, :killed_all_invaders
+    attr_accessor :started, :finished, :drowned_ship, :next_level
 
     alias_method  :started?,  :started
     alias_method  :finished?, :finished
     alias_method  :drowned_ship?, :drowned_ship
-    alias_method  :killed_all_invaders?, :killed_all_invaders
+    alias_method  :next_level?, :next_level
 
     def initialze app
       super
       @started = false
       @finished = false
       @drowned_ship = false
-      @killed_all_invaders = false
+      @next_level = false
     end
 
     def being_played?
-      started and not drowned_ship and not killed_all_invaders and not finished
+      started? && !drowned_ship && !next_level? && !finished?
     end
 
     def hasnt_started?
       not started?
     end
 
-    def killed_all_invaders!
-      @killed_all_invaders = true
+    def next_level!
+      @next_level = true
     end
 
     def start!
@@ -43,6 +43,10 @@ module SpaceInvaders
 
     def continue!
       @drowned_ship = false
+      @next_level = false
+    end
+
+    def status
     end
   end
 end

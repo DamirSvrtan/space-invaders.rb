@@ -27,5 +27,10 @@ module SpaceInvaders
     def <<(bullet)
       @bullets << bullet
     end
+
+    def clear
+      bullets.clear
+    end
+
   end
 end
