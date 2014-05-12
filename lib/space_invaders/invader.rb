@@ -1,4 +1,3 @@
-require_relative 'abstract_vehicle'
 require_relative 'mesurable'
 require_relative 'collideable'
 module SpaceInvaders

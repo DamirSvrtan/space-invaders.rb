@@ -1,4 +1,3 @@
-require_relative 'abstract_vehicle'
 require_relative 'drowned_ship_animator'
 require_relative 'mesurable'
 

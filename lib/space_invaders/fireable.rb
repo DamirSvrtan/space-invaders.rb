@@ -1,4 +1,6 @@
 require_relative 'bullet_collection'
+require_relative 'bullet'
+
 module SpaceInvaders
   module Fireable
 
