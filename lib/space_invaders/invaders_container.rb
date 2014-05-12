@@ -72,7 +72,7 @@ module SpaceInvaders
       def check_collision
         invader_rows.each { |invader_row| invader_row.check_collision(rival_bullets) }
         invader_rows.delete_if {|invader_row| invader_row.empty?}
-        hit_rock_bottom?
+        hit_rock_bottom? if any_invaders?
       end
 
       def hit_rock_bottom?
@@ -95,9 +95,7 @@ module SpaceInvaders
       end
 
       def update_direction direction, y_offset
-        invader_rows.each do |invader_row|
-          invader_row.update direction, y_offset
-        end
+        invader_rows.each {|invader_row| invader_row.update direction, y_offset }
       end
 
       def fire_bullet
@@ -107,7 +105,7 @@ module SpaceInvaders
       end
 
       def can_fire?
-        any_invaders? and Time.now > @can_fire + 2
+        Time.now > @can_fire + 2
       end
 
       def can_change?
