@@ -1,6 +1,8 @@
+require 'forwardable'
+
 module SpaceInvaders
   class BulletCollection
-
+    extend Forwardable
     attr_reader :bullets
 
     def initialize
@@ -16,21 +18,6 @@ module SpaceInvaders
       @bullets.each {|bullet| bullet.draw }
     end
 
-    def each(&block)
-      @bullets.each(&block)
-    end
-
-    def delete(bullet)
-      @bullets.delete(bullet)
-    end
-
-    def <<(bullet)
-      @bullets << bullet
-    end
-
-    def clear
-      bullets.clear
-    end
-
+    def_delegators :@bullets, :each, :delete, :<<, :clear
   end
 end
