@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'space_invaders'
+require "space_invaders/app"
+# require "space_invaders/version"
+# require 'space_invaders/app'
+
+SpaceInvaders::App.new.show
+
+# puts "BU"
