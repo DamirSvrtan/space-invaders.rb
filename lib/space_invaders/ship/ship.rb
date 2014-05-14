@@ -1,4 +1,4 @@
-require 'space_invaders/drowned_ship_animator'
+require 'space_invaders/ship/drowned_ship_animator'
 require 'space_invaders/behaviors/mesurable'
 require 'space_invaders/behaviors/collideable'
 require 'space_invaders/behaviors/fireable'
