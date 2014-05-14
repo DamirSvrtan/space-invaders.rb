@@ -2,6 +2,7 @@
 
 Classic arcade game Space Invaders written in Ruby w/ [Gosu](https://github.com/jlnr/gosu).
 
+![Screenshot](http://i.imgur.com/Xfewqhn.png)
 ## Getting Started
 
 The game is packed as a gem, so you can simply run:
