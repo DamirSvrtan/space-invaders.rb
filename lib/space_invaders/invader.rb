@@ -1,5 +1,5 @@
-require_relative 'mesurable'
-require_relative 'collideable'
+require 'space_invaders/behaviors/mesurable'
+require 'space_invaders/behaviors/collideable'
 module SpaceInvaders
   class Invader < Base
     include Mesurable

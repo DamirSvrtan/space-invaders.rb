@@ -1,5 +1,5 @@
 require_relative 'base'
-require_relative 'centerable'
+require 'space_invaders/behaviors/centerable'
 
 module SpaceInvaders
   class NextLevelScreen < Base

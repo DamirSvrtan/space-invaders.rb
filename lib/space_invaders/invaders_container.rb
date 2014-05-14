@@ -1,6 +1,6 @@
-require_relative 'invader_row'
-require_relative 'invader_abc'
-require_relative 'fireable'
+require 'space_invaders/invader_row'
+require 'space_invaders/invader_abc'
+require 'space_invaders/behaviors/fireable'
 
 module SpaceInvaders
   class InvadersContainer < Base

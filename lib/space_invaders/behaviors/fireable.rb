@@ -1,5 +1,5 @@
-require_relative 'bullet_collection'
-require_relative 'bullet'
+require 'space_invaders/bullet_collection'
+require 'space_invaders/bullet'
 
 module SpaceInvaders
   module Fireable

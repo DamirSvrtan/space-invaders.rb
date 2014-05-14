@@ -1,5 +1,5 @@
-require_relative 'base'
-require_relative 'collideable'
+require 'space_invaders/base'
+require 'space_invaders/behaviors/collideable'
 
 module SpaceInvaders
   class Block < Base
