@@ -1,5 +1,5 @@
-require_relative 'base'
-require_relative 'utils'
+require 'space_invaders/base'
+require 'space_invaders/utils'
 
 module SpaceInvaders
   class Images < Base

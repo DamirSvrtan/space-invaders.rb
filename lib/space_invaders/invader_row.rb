@@ -1,5 +1,5 @@
 require 'forwardable'
-require_relative 'base'
+require 'space_invaders/base'
 
 module SpaceInvaders
   class InvaderRow < Base

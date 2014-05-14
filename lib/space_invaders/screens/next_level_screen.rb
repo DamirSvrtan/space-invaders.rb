@@ -1,4 +1,4 @@
-require_relative 'base'
+require 'space_invaders/base'
 require 'space_invaders/behaviors/centerable'
 
 module SpaceInvaders

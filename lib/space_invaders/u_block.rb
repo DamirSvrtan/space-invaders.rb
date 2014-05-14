@@ -1,5 +1,5 @@
-require_relative 'base'
-require_relative 'block'
+require 'space_invaders/base'
+require 'space_invaders/block'
 
 module SpaceInvaders
   class UBlock < Base

@@ -1,6 +1,10 @@
 require "gosu"
 require 'pry'
 
+require 'space_invaders/screens/welcome_screen'
+require 'space_invaders/screens/game_over_screen'
+require 'space_invaders/screens/next_level_screen'
+
 require 'space_invaders/invaders_container'
 require 'space_invaders/ship'
 require 'space_invaders/score_tracker'
@@ -10,9 +14,6 @@ require 'space_invaders/sounds'
 require 'space_invaders/base'
 require 'space_invaders/game_status'
 require 'space_invaders/button_controller'
-require 'space_invaders/welcome_screen'
-require 'space_invaders/game_over_screen'
-require 'space_invaders/next_level_screen'
 require 'space_invaders/red_invader'
 require 'space_invaders/u_block'
 require 'space_invaders/u_block_container'

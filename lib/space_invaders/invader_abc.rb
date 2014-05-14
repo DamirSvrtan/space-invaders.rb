@@ -1,5 +1,5 @@
-require_relative 'invader'
-require_relative 'utils'
+require 'space_invaders/invader'
+require 'space_invaders/utils'
 
 module SpaceInvaders
   [:invader_a, :invader_b, :invader_c].each do |invader_name|
