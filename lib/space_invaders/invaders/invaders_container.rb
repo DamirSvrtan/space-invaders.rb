@@ -1,5 +1,5 @@
-require 'space_invaders/invader_row'
-require 'space_invaders/invader_abc'
+require 'space_invaders/invaders/invader_row'
+require 'space_invaders/invaders/invader_abc'
 require 'space_invaders/behaviors/fireable'
 
 module SpaceInvaders

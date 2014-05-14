@@ -1,5 +1,5 @@
 require 'space_invaders/base'
-require 'space_invaders/block'
+require 'space_invaders/blocks/block'
 
 module SpaceInvaders
   class UBlock < Base

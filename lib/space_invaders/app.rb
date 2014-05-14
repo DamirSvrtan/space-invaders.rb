@@ -5,18 +5,22 @@ require 'space_invaders/screens/welcome_screen'
 require 'space_invaders/screens/game_over_screen'
 require 'space_invaders/screens/next_level_screen'
 
-require 'space_invaders/invaders_container'
+require 'space_invaders/trackers/score_tracker'
+require 'space_invaders/trackers/lives_tracker'
+
+require 'space_invaders/invaders/invaders_container'
+require 'space_invaders/invaders/red_invader'
+
+require 'space_invaders/blocks/u_block'
+require 'space_invaders/blocks/u_block_container'
+
 require 'space_invaders/ship'
-require 'space_invaders/score_tracker'
-require 'space_invaders/lives_tracker'
 require 'space_invaders/images'
 require 'space_invaders/sounds'
 require 'space_invaders/base'
 require 'space_invaders/game_status'
 require 'space_invaders/button_controller'
-require 'space_invaders/red_invader'
-require 'space_invaders/u_block'
-require 'space_invaders/u_block_container'
+
 require 'space_invaders/utils'
 
 module SpaceInvaders

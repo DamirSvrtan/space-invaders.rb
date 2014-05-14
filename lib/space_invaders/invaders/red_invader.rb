@@ -1,4 +1,4 @@
-require 'space_invaders/invader'
+require 'space_invaders/invaders/invader'
 
 module SpaceInvaders
   class RedInvader < Invader
