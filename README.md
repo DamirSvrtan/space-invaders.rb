@@ -1,4 +1,4 @@
-# space_invaders.rb
+# Space Invaders
 
 Classic arcade game Space Invaders written in Ruby w/ [Gosu](https://github.com/jlnr/gosu).
 
@@ -9,11 +9,12 @@ The game is packed as a gem, so you can simply run:
     $ gem install space_invaders
     $ space-invaders
 
-Or you can clone the repo and run
+Or you can clone the repo and simply run the main file:
 
+    $ git clone git@github.com:DamirSvrtan/space-invaders.rb.git
     $ ruby go.rb
     
-## Troubles with installation:
+## Troubles during installation:
 
  If you have problems installing the game, you're probably missing some OS specific libraries that Gosu uses. For further information checkout:
  
