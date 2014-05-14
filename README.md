@@ -1,24 +1,31 @@
-# SpaceInvaders
+# space_invaders.rb
 
-TODO: Write a gem description
+Classic arcade game Space Invaders written in Ruby w/ [Gosu](https://github.com/jlnr/gosu).
 
-## Installation
+## Getting Started
 
-Add this line to your application's Gemfile:
-
-    gem 'space_invaders'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+The game is packed as a gem, so you can simply run:
 
     $ gem install space_invaders
+    $ space-invaders
 
-## Usage
+Or you can clone the repo and run
 
-TODO: Write usage instructions here
+    $ ruby go.rb
+    
+## Troubles with installation:
+
+ If you have problems installing the game, you're probably missing some OS specific libraries that Gosu uses. For further information checkout:
+ 
+* [Getting started with Gosu on Linux](https://github.com/jlnr/gosu/wiki/Getting-Started-on-Linux)
+* [Getting started with Gosu on OS-X](https://github.com/jlnr/gosu/wiki/Getting-Started-on-OS-X)
+* [Getting started with Gosu on Windows](https://github.com/jlnr/gosu/wiki/Getting-Started-on-Windows)
+
+## Thank you note
+
+Thnx to people at [RubyWeekly](http://rubyweekly.com/) for publishing awesome stuff every week, such as [Mike Moores talk on LA Ruby Conference about creating games with Gosu](http://www.confreaks.com/videos/3049-larubyconf2014-writing-games-with-ruby?utm_source=rubyweekly&utm_medium=email).
+
+Graphics partially taken from [How to make games in iOS](http://www.raywenderlich.com/51068/how-to-make-a-game-like-space-invaders-with-sprite-kit-tutorial-part-1).
 
 ## Contributing
 
