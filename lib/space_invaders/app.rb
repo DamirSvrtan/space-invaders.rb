@@ -32,7 +32,7 @@ module SpaceInvaders
       super
       self.caption = "Sprite Demonstration"
       initialize_statics
-      initialize_dynamics_and_trackes
+      initialize_dynamics_and_trackers
     end
 
     def button_down id
@@ -54,6 +54,7 @@ module SpaceInvaders
         next_level_screen.draw
       elsif game_status.drowned_ship? or game_status.being_played?
         draw_dynamics
+        draw_trackers
       elsif game_status.finished?
         game_over_screen.draw
       end
@@ -63,7 +64,7 @@ module SpaceInvaders
       define_properties *STATICS
     end
 
-    def initialize_dynamics_and_trackes
+    def initialize_dynamics_and_trackers
       define_properties *DYNAMICS, *TRACKERS
     end
 
