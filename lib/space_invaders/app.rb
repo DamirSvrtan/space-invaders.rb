@@ -1,6 +1,10 @@
 require "gosu"
 require 'pry'
 
+# Load the lib if you're running the game without installing the gem.
+lib = File.expand_path('../..', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'space_invaders/screens/welcome_screen'
 require 'space_invaders/screens/game_over_screen'
 require 'space_invaders/screens/next_level_screen'
@@ -28,7 +32,7 @@ module SpaceInvaders
 
     DEFAULT_FONT = "assets/fonts/unifont.ttf"
 
-    STATICS = :game_status, :button_controller, :images, :sounds, 
+    STATICS = :game_status, :button_controller, :images, :sounds,
               :welcome_screen, :game_over_screen, :next_level_screen
     TRACKERS = :lives_tracker, :score_tracker
     DYNAMICS = :ship, :invaders_container, :u_block_container, :red_invader
