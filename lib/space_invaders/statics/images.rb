@@ -4,11 +4,15 @@ require 'space_invaders/utils'
 module SpaceInvaders
   class Images < Base
 
-    IMAGES = [ :invader_a1, 
-               :invader_a2, 
-               :invader_b1, 
-               :invader_b2, 
-               :invader_c1, 
+    RELATIVE_IMAGES_PATH = File.join('..', '..', '..', '..', 'assets', 'images')
+
+    ABSOLUTE_IMAGES_PATH = File.expand_path(RELATIVE_IMAGES_PATH, __FILE__)
+
+    IMAGES = [ :invader_a1,
+               :invader_a2,
+               :invader_b1,
+               :invader_b2,
+               :invader_c1,
                :invader_c2,
                :red_invader,
                :ship,
@@ -33,7 +37,7 @@ module SpaceInvaders
 
       def asset_path(image_name)
         camel_case_name = Utils.camelcase(image_name)
-        File.join("assets", "images", "#{camel_case_name}.png")
+        File.join(ABSOLUTE_IMAGES_PATH, "#{camel_case_name}.png")
       end
   end
 end

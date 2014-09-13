@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "space_invaders"
-  spec.version       = "0.0.3"
+  spec.version       = "0.0.4"
   spec.authors       = ["Damir Svrtan"]
   spec.email         = ["damir.svrtan@gmail.com"]
   spec.summary       = "space_invaders.rb"
