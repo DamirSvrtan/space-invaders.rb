@@ -41,7 +41,7 @@ module SpaceInvaders
 
     def initialize width=800, height=600, fullscreen=false
       super
-      self.caption = "Sprite Demonstration"
+      self.caption = "Space Invaders"
       initialize_statics
       initialize_dynamics_and_trackers
     end
