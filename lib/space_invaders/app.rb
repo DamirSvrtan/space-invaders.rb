@@ -30,7 +30,8 @@ require 'space_invaders/utils'
 module SpaceInvaders
   class App < Gosu::Window
 
-    DEFAULT_FONT = "assets/fonts/unifont.ttf"
+    RELATIVE_DEFAULT_FONT = File.join('..', '..', '..', 'assets', 'fonts', 'unifont.ttf')
+    DEFAULT_FONT = File.expand_path(RELATIVE_DEFAULT_FONT,__FILE__)
 
     STATICS = :game_status, :button_controller, :images, :sounds,
               :welcome_screen, :game_over_screen, :next_level_screen
