@@ -5,6 +5,8 @@ require 'pry'
 lib = File.expand_path('../..', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require 'space_invaders/base'
+require 'space_invaders/statics/game_status'
 require 'space_invaders/screens/welcome_screen'
 require 'space_invaders/screens/game_over_screen'
 require 'space_invaders/screens/next_level_screen'
@@ -12,7 +14,6 @@ require 'space_invaders/screens/next_level_screen'
 require 'space_invaders/trackers/score_tracker'
 require 'space_invaders/trackers/lives_tracker'
 
-require 'space_invaders/statics/game_status'
 require 'space_invaders/statics/button_controller'
 require 'space_invaders/statics/images'
 require 'space_invaders/statics/sounds'
@@ -24,7 +25,6 @@ require 'space_invaders/blocks/u_block'
 require 'space_invaders/blocks/u_block_container'
 
 require 'space_invaders/ship/ship'
-require 'space_invaders/base'
 require 'space_invaders/utils'
 
 module SpaceInvaders
