@@ -2,7 +2,7 @@ module SpaceInvaders
   module Utils
     def self.to_klass(property)
       klass_name = camelcase(property)
-      Object.const_get("SpaceInvaders::#{klass_name}")
+      SpaceInvaders.const_get(klass_name)
     end
 
     def self.camelcase(property)
